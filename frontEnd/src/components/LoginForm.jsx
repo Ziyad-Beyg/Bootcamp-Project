@@ -20,13 +20,13 @@ const LoginForm = () => {
           <div style={{margin: '25px 0px'}}>
             <label >Email</label>
             <br />
-            <input type="text" style={{backgroundColor:"#edf5ef", borderRadius:'10px', outline: 'none', border: 'none', color:'black', width:'100%', height:'40px', paddingLeft:'10px', fontSize:'14px', color:'#000'}} />
+            <input type="text" placeholder="bootcamp@gmail.com" style={{backgroundColor:"#edf5ef", borderRadius:'10px', outline: 'none', border: 'none', color:'black', width:'100%', height:'40px', paddingLeft:'10px', fontSize:'14px'}} />
           </div>
 
           <div style={{margin: '25px 0px'}}>
             <label >Password</label>
             <br />
-            <input type="password" style={{backgroundColor:"#edf5ef", borderRadius:'10px', outline: 'none', border: 'none', color:'black', width:'100%', height:'40px', paddingLeft:'10px', fontSize:'14px', color:'#000'}} />
+            <input type="password" placeholder="********" style={{backgroundColor:"#edf5ef", borderRadius:'10px', outline: 'none', border: 'none', color:'black', width:'100%', height:'40px', paddingLeft:'10px', fontSize:'14px'}} />
 
             <button
               style={{

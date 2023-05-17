@@ -10,12 +10,13 @@ const Login = () => {
         <section style={{backgroundColor:'#fff', width:'100%', display:'flex', justifyContent: 'center', alignItems: 'center'}}>
           <LoginForm />
         </section>
-        <section style={{backgroundColor: '#50A060', width:'100%', opacity: 0.1}}>
-          {/* <img src={loginBg} alt="" width={600} height={600} style={{zIndex: 1, objectFit: 'contain'}} /> */}
+        <section style={{backgroundColor: '#edf5ef', width:'100%', overflow: 'hidden'}}>
+          <img src={loginBg} alt="login Bg " width={750}  style={{objectFit: 'contain', position:'absolute', bottom:'150px', right: '4.1%'}} />
+          <Lottie animationData={animationData} style={{position:'absolute', right: '1%', bottom:'40px', width: '800px', height: '800px',}} />
         </section>
-          <Lottie animationData={animationData} style={{position:'absolute', right: '50px', bottom:'50px', width: '800px'}} />
 
-          <hr style={{position:'absolute', bottom:'500px'}} />
+          <hr style={{color: '#50A060', borderBottom: '2px solid #50A060', position: 'absolute', bottom: '150px',  width: '100%'}} />
+          <hr style={{color: '#50A060', borderBottom: '2px solid #50A060', position: 'absolute', bottom: '145px',  width: '100%'}} />
 
     </main>
   )
