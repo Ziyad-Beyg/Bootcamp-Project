@@ -5,7 +5,8 @@ import About from "./screens/About";
 import Contact from "./screens/Contact";
 import Home from "./screens/Home";
 import Login from "./screens/Login/Login";
-import './app.css'
+import SignUp from "./screens/SignUp/SignUp";
+import "./app.css";
 
 export const routes = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -19,8 +20,11 @@ export const routes = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login
-     />,
+    element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <SignUp />,
   },
 ]);
 

@@ -1,10 +1,11 @@
 import React from "react";
-import LoginForm from "../../components/LoginForm";
-import loginBg from "../../assets/loginBg.png";
+import LoginForm from "./LoginForm";
+import loginBg from "../assets/loginBg.png";
 import Lottie from "lottie-react";
-import animationData from "../../assets/Befit.json";
+import animationData from "../assets/Befit.json";
+import RegisterForm from "./RegisterForm";
 
-const Login = () => {
+const FrontPage = () => {
   return (
     <main
       style={{
@@ -78,4 +79,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default FrontPage;

@@ -1,7 +1,6 @@
 import React from "react";
 import logo from "../assets/logo.png";
-import signIn from "../assets/signinIcon.png";
-import "../screens/Login/login.css"
+import signIn from "../assets/SigninIcon.png";
 
 const LoginForm = () => {
   return (

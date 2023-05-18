@@ -1,10 +1,10 @@
 import React from "react";
-import LoginForm from "../../components/LoginForm";
 import loginBg from "../../assets/loginBg.png";
 import Lottie from "lottie-react";
 import animationData from "../../assets/Befit.json";
+import RegisterForm from "../../components/RegisterForm";
 
-const Login = () => {
+const SignUp = () => {
   return (
     <main
       style={{
@@ -21,10 +21,10 @@ const Login = () => {
           width: "100%",
           display: "flex",
           justifyContent: "center",
-          alignItems: "center",
+marginTop:"40px"
         }}
       >
-        <LoginForm />
+        <RegisterForm />
       </section>
       <section
         style={{
@@ -78,4 +78,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
