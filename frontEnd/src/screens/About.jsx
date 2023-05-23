@@ -1,9 +1,11 @@
 import React from 'react'
+import AboutScreenGrid from '../components/AboutScreenGrid'
 
 const About = () => {
-    console.log("HELLOO)")
   return (
-    <div>About</div>
+    <div>
+      <AboutScreenGrid />
+    </div>
   )
 }
 

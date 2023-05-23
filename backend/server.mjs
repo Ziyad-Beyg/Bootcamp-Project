@@ -83,7 +83,7 @@ mongoose.connect('mongodb+srv://baiggziycontour:9211420@be-fit.izi31cz.mongodb.n
 
     app.listen( 8080, () => {
         console.log("NODE SERVER RUNNING ON PORT 8080")
-    })
+    }) 
 })
 .catch((e)=>{
     console.log(e.message)
