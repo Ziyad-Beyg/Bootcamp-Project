@@ -1,6 +1,6 @@
-import React from "react";
 import logo from "../assets/logo.png";
 import signIn from "../assets/SigninIcon.png";
+import {Link} from "react-router-dom"
 
 const LoginForm = () => {
   return (
@@ -26,12 +26,16 @@ const LoginForm = () => {
             <label >Password</label>
             <br />
             <input type="password" placeholder="********" style={{backgroundColor:"#edf5ef", borderRadius:'10px', outline: 'none', border: 'none', color:'black', width:'100%', height:'40px', paddingLeft:'10px', fontSize:'14px'}} />
-
+              <Link to={'/register'} style={{textDecoration: 'none'}}>
+              <p style={{fontSize:'12px', color:'silver', padding: '10px 10px'}}>
+          don't have an account?  <span style={{color: '#50A060', fontWeight:'bold'}}>SIGN UP</span>
+        </p>
+              </Link>
             <button
               style={{
                 backgroundColor: "#50A060",
                 padding: "10px 20px",
-                margin: "15px 0px",
+                // margin: "15px 0px",
                 outline: "none",
                 border: "none",
                 borderRadius: "25px",
@@ -41,11 +45,11 @@ const LoginForm = () => {
                 display:'flex',
                 alignItems:'center',
                 color:'white',
-                margin: '35px auto'
+                margin: '10px auto'
 
               }}
             >
-              Sign In 
+              Login 
               &nbsp;
               <img
                 src={signIn}

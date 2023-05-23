@@ -1,6 +1,7 @@
 import React from "react";
 import logo from "../assets/logo.png";
 import signIn from "../assets/SigninIcon.png";
+import { Link } from "react-router-dom";
 
 const RegisterForm = () => {
   return (
@@ -108,14 +109,19 @@ const RegisterForm = () => {
                 fontSize: "14px",
               }}
             />
-          </div>
+
+          <Link to={'/login'} style={{textDecoration: 'none'}}>
+              <p style={{fontSize:'12px', color:'silver', padding: '10px 10px'}}>
+          already have an account?  <span style={{color: '#50A060', fontWeight:'bold'}}>LOGIN</span>
+        </p>
+              </Link>
 
           <button
             style={{
                 marginTop: "10px",
               backgroundColor: "#50A060",
               padding: "10px 20px",
-              margin: "15px 0px",
+              // margin: "15px 0px",
               outline: "none",
               border: "none",
               borderRadius: "25px",
@@ -125,7 +131,7 @@ const RegisterForm = () => {
               display: "flex",
               alignItems: "center",
               color: "white",
-              margin: "35px auto",
+              margin: "10px auto",
             }}
           >
             Sign Up &nbsp;
@@ -137,6 +143,8 @@ const RegisterForm = () => {
               style={{ objectFit: "contain" }}
             />
           </button>
+          </div>
+
         </section>
       </section>
     </main>
