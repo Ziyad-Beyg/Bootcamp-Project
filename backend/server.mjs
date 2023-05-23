@@ -60,7 +60,7 @@ app.put('/product/:id', async(req, res)=>{
     catch(e){
         res.status(500).json({message: e.message})
     }
-})
+}) 
 
 // DELETE A PRODUCT
 app.delete('/product/:id', async(req, res)=> {

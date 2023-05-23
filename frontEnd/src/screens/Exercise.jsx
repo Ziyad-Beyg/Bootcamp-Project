@@ -1,7 +1,11 @@
 import React from "react";
 import ExerciseCards from "../components/ExercisesCards";
+import FormModal from "../components/FormModal"
 
 const Exercise = () => {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   return (
     <div>
       <ExerciseCards />
@@ -24,6 +28,7 @@ const Exercise = () => {
       >
         +
       </div>
+      <FormModal/>
     </div>
   );
 };
