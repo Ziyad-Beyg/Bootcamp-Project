@@ -1,25 +1,15 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
-import aboutImg from '../assets/About.png'
 import aboutSvg from '../assets/AboutSVG.svg'
 import '../App.css'
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
 
 export default function RowAndColumnSpacing() {
   return (
-    <Box sx={{ width: '100%', minHeight: '100vh', display: 'flex', alignItems:'center' }}>
+    <Box sx={{ width: '100%', display: 'flex', alignItems:'center' }}>
         {/* <div style={{height:'100px', backgroundColor: 'red'}}></div> */}
-      <Grid container  justifyContent="space-around" alignItems="center" rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{padding:'20px', height: "inherit"}}>
+      <div>
+      <Grid container  justifyContent="space-around" alignItems="center" rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{padding:'20px'}}>
         <Grid item xs={7} >
           <h1 style={{fontSize:'42px',margin:"15px ",  fontStyle: 'italic'}}>
             Just <span style={{letterSpacing:'3px', fontWeight:'bolder'}}>BE-FIT</span>
@@ -54,9 +44,10 @@ Join the BE-FIT community today and embark on a journey towards a healthier, fit
           </p>
         </Grid>
         <Grid item xs={4}>
-          <img src={aboutSvg} class="vert-move" alt="About Us Image" style={{width:'90%', objectFit:'contain'}} />
+          <img src={aboutSvg} className="vert-move" alt="About Us Image" style={{width:'90%', objectFit:'contain'}} />
         </Grid>
       </Grid>
+      </div>
     </Box>
   );
 }

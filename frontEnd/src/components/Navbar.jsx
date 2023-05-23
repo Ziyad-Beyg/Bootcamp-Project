@@ -20,10 +20,17 @@ import favouriteIcon from "../assets/favourite-icon.png";
 import homeIcon from "../assets/home-icon.png";
 import aboutIcon from "../assets/about-icon.png";
 import newStyled from "@emotion/styled";
-
+import { Link } from "react-router-dom";
 
 const drawerWidth = "70%";
+
 const navItems = ["Home", "Favourites", "Exercises", "About Us", "Logout"];
+const navItemsIcons = [
+  { icon: homeIcon, to: "/" },
+  { icon: favouriteIcon, to: "/favourite" },
+  { icon: exerciseIcon, to: "/exercises" },
+  { icon: aboutIcon, to: "/about" },
+];
 
 const MyComponent = newStyled("div")({
   width: "100%",
@@ -43,7 +50,10 @@ function DrawerAppBar(props) {
   };
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
+    <Box
+      onClick={handleDrawerToggle}
+      sx={{ textAlign: "center", position: "sticky", top: 0 }}
+    >
       <Typography
         variant="h4"
         sx={{ my: 3, fontWeight: "bolder", color: "#50A060" }}
@@ -71,7 +81,7 @@ function DrawerAppBar(props) {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar component="nav" sx={{backgroundColor:"#50A060"}}>
+      <AppBar component="nav" sx={{ backgroundColor: "#50A060" }}>
         <Toolbar>
           <Box
             sx={{
@@ -79,16 +89,37 @@ function DrawerAppBar(props) {
               paddingY: "10px",
               width: "100%",
               justifyContent: "space-between",
-              alignItems: 'center'
+              alignItems: "center",
             }}
           >
             <img src={logo} alt="logo" width={100} />
             <Box>
-              {navItems.map((item) => (
-                <Button key={item} sx={{ color: "#fff", textTransform: 'capitalize', fontWeight: 'bold', fontSize:"16px", letterSpacing: '1px' }}>
-                  {item}
-                </Button>
+              {navItemsIcons.map((item, index) => (
+                <Link to={item.to} key={{index}}>
+                  <Button
+                    sx={{
+                      color: "#fff",
+                      textTransform: "capitalize",
+                      fontWeight: "bold",
+                      fontSize: "16px",
+                      letterSpacing: "1px",
+                    }}
+                  >
+                    <img src={item.icon} alt="Navbar Icons" width={30} />
+                  </Button>
+                </Link>
               ))}
+              <Button
+                sx={{
+                  color: "#fff",
+                  textTransform: "capitalize",
+                  fontWeight: "bold",
+                  fontSize: "16px",
+                  letterSpacing: "1px",
+                }}
+              >
+                Logout
+              </Button>
             </Box>
           </Box>
           <Box
