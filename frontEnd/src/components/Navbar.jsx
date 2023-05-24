@@ -24,10 +24,16 @@ import { Link } from "react-router-dom";
 
 const drawerWidth = "70%";
 
-const navItems = ["Home", "Favourites", "Exercises", "About Us", "Logout"];
+const navItems = [
+  { text: "Home", to: "/" },
+  { text: "Favourites", to: "/favorite" },
+  { text: "Exercises", to: "/exercises" },
+  { text: "About Us", to: "/about" },
+  { text: "Logout", to: "#" },
+];
 const navItemsIcons = [
   { icon: homeIcon, to: "/" },
-  { icon: favouriteIcon, to: "/favourite" },
+  // { icon: favouriteIcon, to: "/favorite" },
   { icon: exerciseIcon, to: "/exercises" },
   { icon: aboutIcon, to: "/about" },
 ];
@@ -38,8 +44,6 @@ const MyComponent = newStyled("div")({
     backgroundColor: "#edf5ef",
   },
 });
-
-// const navItemsIcons = [homeIcon, favouriteIcon, exerciseIcon, aboutIcon];
 
 function DrawerAppBar(props) {
   const { window } = props;
@@ -52,7 +56,7 @@ function DrawerAppBar(props) {
   const drawer = (
     <Box
       onClick={handleDrawerToggle}
-      sx={{ textAlign: "center", position: "sticky", top: 0 }}
+      sx={{ textAlign: "center", position: "sticky", top: 0,  boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)', }}
     >
       <Typography
         variant="h4"
@@ -62,14 +66,16 @@ function DrawerAppBar(props) {
       </Typography>
       <Divider />
       <List>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <MyComponent>
-              <ListItemButton sx={{ textAlign: "center" }}>
-                <ListItemText primary={item} />
-              </ListItemButton>
-            </MyComponent>
-          </ListItem>
+        {navItems.map((item, index) => (
+          <Link style={{textDecoration:"none"}} key={index} to={item.to}>
+            <ListItem key={item} disablePadding>
+              <MyComponent>
+                <ListItemButton sx={{ textAlign: "center" }}>
+                  <ListItemText style={{color:'#000'}} primary={item.text} />
+                </ListItemButton>
+              </MyComponent>
+            </ListItem>
+          </Link>
         ))}
       </List>
     </Box>
@@ -92,10 +98,12 @@ function DrawerAppBar(props) {
               alignItems: "center",
             }}
           >
-            <img src={logo} alt="logo" width={100} />
+            <Link to={"/"}>
+              <img src={logo} alt="logo" width={100} />
+            </Link>
             <Box>
               {navItemsIcons.map((item, index) => (
-                <Link to={item.to} key={{index}}>
+                <Link to={item.to} key={{ index }}>
                   <Button
                     sx={{
                       color: "#fff",

@@ -6,7 +6,7 @@ import '../App.css'
 
 export default function RowAndColumnSpacing() {
   return (
-    <Box sx={{ width: '100%', display: 'flex', alignItems:'center' }}>
+    <Box sx={{ width: '100%', display: 'flex', alignItems:'center',  marginTop:"100px"  }}>
         {/* <div style={{height:'100px', backgroundColor: 'red'}}></div> */}
       <div>
       <Grid container  justifyContent="space-around" alignItems="center" rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{padding:'20px'}}>

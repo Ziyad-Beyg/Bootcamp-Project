@@ -1,7 +1,9 @@
+import React, { useState, useEffect } from "react";
 import { experimentalStyled as styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import ImgMediaCard from "./SingleCard";
+import axios from 'axios'
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -12,6 +14,22 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function ResponsiveGrid() {
+  const [AllData, setAllData] = useState([]);
+
+    useEffect(() => {
+      getAllData()
+    }, [])
+    
+  const getAllData = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:8080/workouts");
+      setAllData(data);
+      console.log(data);
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -20,18 +38,13 @@ export default function ResponsiveGrid() {
         flexWrap: "wrap",
         justifyContent: "center",
         gap: "20px",
+        marginTop: "120px",
       }}
     >
-      {Array.from(Array(6)).map((_, index) => (
+      {AllData.map((singleData) => (
         <ImgMediaCard
-        key={index}
-          title={"Swimming"}
-          description={
-            "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis nemo corporis nostrum!"
-          }
-          type={"Full Body"}
-          duration={"10min"}
-          date={"23/05/2023"}
+        key={singleData._id}
+        singleData={singleData}
         />
       ))}
     </Box>

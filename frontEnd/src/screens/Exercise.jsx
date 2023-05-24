@@ -1,6 +1,7 @@
 import React from "react";
 import ExerciseCards from "../components/ExercisesCards";
-import FormModal from "../components/FormModal"
+import FormModal from "../components/FormModal";
+import Navbar from '../components/Navbar'
 
 const Exercise = () => {
   const [open, setOpen] = React.useState(false);
@@ -8,29 +9,13 @@ const Exercise = () => {
   const handleClose = () => setOpen(false);
   return (
     <div>
+      <Navbar />
       <ExerciseCards />
-      <div
-        style={{
-          backgroundColor: "#50A060",
-          width: "60px",
-          height: "60px",
-          borderRadius: "50%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          color: "#fff",
-          fontWeight: "bold",
-          fontSize: "2.5rem",
-          position: "fixed",
-          bottom: "50px",
-          right: "50px",
-        }}
-      >
-        +
-      </div>
-      <FormModal/>
+      <FormModal />
     </div>
   );
 };
+
+
 
 export default Exercise;

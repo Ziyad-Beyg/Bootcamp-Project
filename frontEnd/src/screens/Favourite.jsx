@@ -1,8 +1,11 @@
 import React from 'react'
+import Navbar from '../components/Navbar'
 
 const favourite = () => {
   return (
-    <div>favourite</div>
+    <div>
+      <Navbar />
+    </div>
   )
 }
 

@@ -1,21 +1,23 @@
 import express from 'express'
 import mongoose from 'mongoose'
-import { Product } from './Models/productModel.mjs'
+import { WorkOut } from './Models/workoutModel.mjs'
+import cors from 'cors'
 
 const app = express()
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
+app.use(cors())
 
 app.get('/', (req, res) => {
     res.send("/ API called")
 })
 
 // GET PRODUCT BY ID
-app.get('/product/:id', async(req, res)=> {
+app.get('/workout/:id', async(req, res)=> {
     try{
         const {id} = req.params
-        const singleProduct = await Product.findById(id);
-        res.status(200).json(singleProduct)
+        const singleWorkout = await WorkOut.findById(id);
+        res.status(200).json(singleWorkout)
     }
     catch(e){
         res.status(500).json({message: e.message})
@@ -23,10 +25,10 @@ app.get('/product/:id', async(req, res)=> {
 })
 
 // GET ALL PRODUCTS
-app.get('/products', async(req, res)=> {
+app.get('/workouts', async(req, res)=> {
     try{
-        const allProducts = await Product.find()
-        res.status(200).json(allProducts)
+        const allWorkouts = await WorkOut.find()
+        res.status(200).json(allWorkouts)
     }
     catch(e){
         res.status(500).json({message: e.message})
@@ -34,10 +36,10 @@ app.get('/products', async(req, res)=> {
 })
 
 // POST PRODUCTS
-app.post('/product', async(req, res) => {
+app.post('/workout', async(req, res) => {
 try{
-    const dbProduct = await Product.create(req.body);
-    res.status(200).json(dbProduct)
+    const postWorkouts = await WorkOut.create(req.body);
+    res.status(200).json(postWorkouts)
 }
 catch(e){
     console.log(e.message)
@@ -47,15 +49,15 @@ catch(e){
 
 
 // UPDATE PRODUCT
-app.put('/product/:id', async(req, res)=>{
+app.put('/workout/:id', async(req, res)=>{
     try{
         const {id} = req.params
-        const productUpdate = await Product.findByIdAndUpdate(id, req.body)
-        if(!productUpdate){
+        const workoutUpdate = await WorkOut.findByIdAndUpdate(id, req.body)
+        if(!workoutUpdate){
             res.status(404).json(`error #404, product not found on id: ${id}`)
         }
-        const updatedProduct = await Product.findById(id)
-        res.status(200).json(updatedProduct)
+        const updatedWorkout = await WorkOut.findById(id)
+        res.status(200).json(updatedWorkout)
     }
     catch(e){
         res.status(500).json({message: e.message})
@@ -63,14 +65,14 @@ app.put('/product/:id', async(req, res)=>{
 }) 
 
 // DELETE A PRODUCT
-app.delete('/product/:id', async(req, res)=> {
+app.delete('/workout/:id', async(req, res)=> {
     try{
         const {id} = req.params
-        const deleteProduct = await Product.findByIdAndDelete(id)
-        if(!deleteProduct){
+        const deleteWorkout = await WorkOut.findByIdAndDelete(id)
+        if(!deleteWorkout){
             res.status(404).json(`error #404, product not found on id: ${id}`)
         }
-        res.status(200).json(deleteProduct)
+        res.status(200).json(deleteWorkout)
     }
     catch(e){
         res.status(500).json({message: e.message})

@@ -6,7 +6,7 @@ import Exercise from "./screens/Exercise";
 import Home from "./screens/Home";
 import Login from "./screens/Login/Login";
 import SignUp from "./screens/SignUp/SignUp";
-import Favrourite from "./screens/Favourite";
+import Favourite from "./screens/Favourite";
 import "./app.css";
 
 export const routes = createBrowserRouter([
@@ -29,7 +29,7 @@ export const routes = createBrowserRouter([
   },
   {
     path: "/favorite",
-    element: <Favrourite />,
+    element: <Favourite />,
   },
 ]);
 
