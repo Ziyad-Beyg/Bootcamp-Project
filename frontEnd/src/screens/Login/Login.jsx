@@ -5,6 +5,7 @@ import Lottie from "lottie-react";
 import animationData from "../../assets/Befit.json";
 
 const Login = () => {
+  
   return (
     <main
       style={{

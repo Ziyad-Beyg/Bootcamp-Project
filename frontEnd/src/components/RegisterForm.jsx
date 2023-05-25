@@ -1,9 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../assets/logo.png";
 import signIn from "../assets/SigninIcon.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const RegisterForm = () => {
+  const [formState, setFormState] = useState("register");
+  const [value, setValues] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const {
+        status,
+        data: { token, refreshToken },
+      } = await axios.post(`http://localhost:8080/${formState}`, value);
+      if (status === 201) {
+        localStorage.setItem("Token", token);
+        localStorage.setItem("RefreshToken", refreshToken);
+        navigate("/login");
+      }
+    } catch (err) {
+      alert(err.message)
+    }
+    
+  };
+
   return (
     <main style={{ width: "50%" }}>
       <section
@@ -30,7 +61,10 @@ const RegisterForm = () => {
             <label>Name</label>
             <br />
             <input
+              value={value.username}
+              onChange={handleChange}
               type="text"
+              name="username"
               placeholder="Mirza Ziyad Ahmed Baig"
               style={{
                 marginTop: "10px",
@@ -51,11 +85,13 @@ const RegisterForm = () => {
             <label>Email</label>
             <br />
             <input
+              value={value.email}
+              onChange={handleChange}
+              name="email"
               type="text"
-              placeholder="bootcamp@gmail.com"
+              placeholder="ziyadbaig@gmail.com"
               style={{
                 marginTop: "10px",
-
                 backgroundColor: "#edf5ef",
                 borderRadius: "10px",
                 outline: "none",
@@ -69,10 +105,13 @@ const RegisterForm = () => {
             />
           </div>
 
-          <div style={{ margin: "25px 0px" }}>
+          <div style={{ margin: "10px 0px" }}>
             <label>Password</label>
             <br />
             <input
+              value={value.password}
+              onChange={handleChange}
+              name="password"
               type="password"
               placeholder="********"
               style={{
@@ -90,8 +129,8 @@ const RegisterForm = () => {
             />
           </div>
 
-          <div style={{ margin: "25px 0px" }}>
-            <label>Confirm Password</label>
+          <div style={{ margin: "10px 0px" }}>
+            {/* <label>Confirm Password</label>
             <br />
             <input
               type="password"
@@ -108,43 +147,52 @@ const RegisterForm = () => {
                 paddingLeft: "10px",
                 fontSize: "14px",
               }}
-            />
+            /> */}
 
-          <Link to={'/login'} style={{textDecoration: 'none'}}>
-              <p style={{fontSize:'12px', color:'silver', padding: '10px 10px'}}>
-          already have an account?  <span style={{color: '#50A060', fontWeight:'bold'}}>LOGIN</span>
-        </p>
-              </Link>
+            <Link to={"/login"} style={{ textDecoration: "none" }}>
+              <p
+                style={{
+                  fontSize: "12px",
+                  color: "silver",
+                  padding: "0px 10px",
+                }}
+              >
+                already have an account?
+                <span style={{ color: "#50A060", fontWeight: "bold" }}>
+                  LOGIN
+                </span>
+              </p>
+            </Link>
 
-          <button
-            style={{
+            <button
+              style={{
                 marginTop: "10px",
-              backgroundColor: "#50A060",
-              padding: "10px 20px",
-              // margin: "15px 0px",
-              outline: "none",
-              border: "none",
-              borderRadius: "25px",
-              fontSize: "18px",
-              fontWeight: "bold",
-              letterSpacing: "1px",
-              display: "flex",
-              alignItems: "center",
-              color: "white",
-              margin: "10px auto",
-            }}
-          >
-            Sign Up &nbsp;
-            <img
-              src={signIn}
-              alt="Sign In Icon"
-              width={25}
-              height={25}
-              style={{ objectFit: "contain" }}
-            />
-          </button>
+                backgroundColor: "#50A060",
+                padding: "10px 20px",
+                // margin: "15px 0px",
+                outline: "none",
+                border: "none",
+                borderRadius: "25px",
+                fontSize: "18px",
+                fontWeight: "bold",
+                letterSpacing: "1px",
+                display: "flex",
+                alignItems: "center",
+                color: "white",
+                margin: "10px auto",
+              }}
+              onClick={handleSubmit}
+            >
+              Sign Up &nbsp;
+              <img
+                src={signIn}
+                alt="Sign In Icon"
+                width={25}
+                height={25}
+                style={{ objectFit: "contain" }}
+              />
+            </button>
           </div>
-
         </section>
       </section>
     </main>
