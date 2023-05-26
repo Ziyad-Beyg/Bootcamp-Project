@@ -6,7 +6,7 @@ import axios from "axios";
 const Home = () => {
   useEffect(() => {
     (async function(){
-      const token = localStorage.getItem('token')
+      const token = localStorage.getItem('Token')
       await axios.get("http://localhost:8080/protected", {headers: {"Authorization" : `Bearer ${token}`}})
     })
   }, [])

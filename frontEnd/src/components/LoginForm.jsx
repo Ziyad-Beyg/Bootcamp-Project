@@ -1,7 +1,7 @@
 import { useState } from "react";
 import logo from "../assets/logo.png";
 import signIn from "../assets/SigninIcon.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 
@@ -13,6 +13,7 @@ const LoginForm = () => {
     password: "",
   });
 
+  const location = useLocation()
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -28,7 +29,8 @@ const LoginForm = () => {
       if (status === 201) {
         localStorage.setItem("Token", token);
         localStorage.setItem("RefreshToken", refreshToken);
-        navigate("/");
+        location.replace('/')
+        //  navigate("/");
       }
     } catch (err) {
       alert(err.message);

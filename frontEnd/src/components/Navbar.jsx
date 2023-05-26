@@ -16,7 +16,6 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import logo from "../assets/navbar-logo-white.png";
 import exerciseIcon from "../assets/exercise-icon.png";
-import favouriteIcon from "../assets/favourite-icon.png";
 import homeIcon from "../assets/home-icon.png";
 import aboutIcon from "../assets/about-icon.png";
 import newStyled from "@emotion/styled";

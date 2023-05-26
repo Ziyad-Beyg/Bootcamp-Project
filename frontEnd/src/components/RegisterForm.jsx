@@ -27,7 +27,7 @@ const RegisterForm = () => {
       if (status === 201) {
         localStorage.setItem("Token", token);
         localStorage.setItem("RefreshToken", refreshToken);
-        navigate("/login");
+        navigate("/");
       }
     } catch (err) {
       alert(err.message)
