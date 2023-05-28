@@ -17,7 +17,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function ColumnsGrid() {
   return (
-    <Box sx={{ flexGrow: 1, marginTop:"100px"  }}>
+    <Box sx={{ flexGrow: 1, marginTop:"100px", marginBottom:"50px"  }}>
       <Grid container direction="row" spacing={2}>
         <Grid
           item

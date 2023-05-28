@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import { Button } from "@mui/material";
 import axios from "axios";
+import { styled } from "@mui/material/styles";
+import { GlobalContext } from "../context/Context";
+
+const StyledTextField = styled(TextField)(({ theme }) => ({
+  "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
+    "-webkit-appearance": "none",
+    margin: 0,
+  },
+  '& input[type="number"]': {
+    "-moz-appearance": "textfield",
+  },
+}));
 
 const workouts = [
   {
@@ -29,10 +41,14 @@ const workouts = [
 ];
 
 export default function StateTextFields({ setOpen }) {
+  const { allWorkouts, setAllWorkouts } = useContext(GlobalContext);
+
   const [title, setTitle] = React.useState("");
   const [titleError, setTitleError] = React.useState(false);
+
   const [description, setDescription] = React.useState("");
   const [descriptionError, setDescriptionError] = React.useState(false);
+
   const [type, setType] = React.useState("");
   const [typeError, setTypeError] = React.useState(false);
 
@@ -42,13 +58,26 @@ export default function StateTextFields({ setOpen }) {
   const [date, setDate] = React.useState("");
   const [dateError, setDateError] = React.useState(false);
 
+  const [titleSyntax, setTitleSyntax] = React.useState(false);
+  const [descriptionSyntax, setDescriptionSyntax] = React.useState(false);
+  const [durationSyntax, setDurationSyntax] = React.useState(false);
+
   const validateInputs = () => {
     let isValid = true;
+    const regex = /^[A-Za-z]+( [A-Za-z]+)*$/;
+    const numRegex = /^[0-9]*$/;
 
     if (title.trim() === "") {
       setTitleError(true);
       isValid = false;
     } else {
+      if (regex.test(title)) {
+        setTitleSyntax(false);
+        console.log("MATCHED", regex.test(title));
+      } else {
+        setTitleSyntax(true);
+        console.log("NOT MATCHED");
+      }
       setTitleError(false);
     }
 
@@ -56,6 +85,13 @@ export default function StateTextFields({ setOpen }) {
       setDescriptionError(true);
       isValid = false;
     } else {
+      if (regex.test(description)) {
+        setDescriptionSyntax(false);
+        console.log("MATCHED", regex.test(description));
+      } else {
+        setDescriptionSyntax(true);
+        console.log("NOT MATCHED");
+      }
       setDescriptionError(false);
     }
 
@@ -70,6 +106,13 @@ export default function StateTextFields({ setOpen }) {
       setDurationError(true);
       isValid = false;
     } else {
+      if (numRegex.test(duration)) {
+        setDurationSyntax(false);
+        console.log("MATCHED", regex.test(duration));
+      } else {
+        setDurationSyntax(true);
+        console.log("NOT MATCHED");
+      }
       setDurationError(false);
     }
 
@@ -87,18 +130,24 @@ export default function StateTextFields({ setOpen }) {
 
   const saveToDb = async () => {
     if (validateInputs()) {
-      const body = { title, description, type, duration, date };
-      try {
-        const { data } = await axios.post(
-          "http://localhost:8080/workout",
-          body
-        );
-        console.log(data);
-      } catch (e) {
-        alert(e.message);
-      }
+      // if (!titleSyntax && !descriptionSyntax) {
+        console.log("No Error Found");
+        const body = { title, description, type, duration, date };
+        try {
+          const { data } = await axios.post(
+            "http://localhost:8080/workout",
+            body
+          );
+        const WorkOutClone = allWorkouts.slice(0);
+        WorkOutClone.push(data);
+        setAllWorkouts(WorkOutClone);
 
-      setOpen(false);
+          console.log(data);
+        } catch (e) {
+          alert(e.message);
+        }
+        setOpen(false);
+      // }
     }
   };
 
@@ -135,6 +184,7 @@ export default function StateTextFields({ setOpen }) {
       <TextField
         id="outlined-controlled"
         label="Title"
+        inputProps={{ inputMode: "text", pattern: "[A-Za-z]" }}
         value={title}
         type="text"
         required
@@ -146,6 +196,10 @@ export default function StateTextFields({ setOpen }) {
           titleError ? (
             <p style={{ color: "red", marginBottom: "0px" }}>
               Title can not be empty
+            </p>
+          ) : titleSyntax ? (
+            <p style={{ color: "red", marginBottom: "0px" }}>
+              Invalid Syntax For Title
             </p>
           ) : (
             ""
@@ -187,6 +241,7 @@ export default function StateTextFields({ setOpen }) {
         value={description}
         type="text"
         variant="standard"
+        required
         onChange={(event) => {
           setDescription(event.target.value);
         }}
@@ -195,17 +250,21 @@ export default function StateTextFields({ setOpen }) {
             <p style={{ color: "red", marginBottom: "0px" }}>
               Description can not be empty
             </p>
+          ) : descriptionSyntax ? (
+            <p style={{ color: "red", marginBottom: "0px" }}>
+              Invalid Syntax For Description
+            </p>
           ) : (
             ""
           )
         }
       />
 
-      <TextField
+      <StyledTextField
         id="outlined-controlled"
         label="Duration"
         value={duration}
-        type="text"
+        type="number"
         variant="standard"
         required
         onChange={(event) => {
@@ -215,6 +274,10 @@ export default function StateTextFields({ setOpen }) {
           durationError ? (
             <p style={{ color: "red", marginBottom: "0px" }}>
               Duration can not be empty
+            </p>
+          ) : durationSyntax ? (
+            <p style={{ color: "red", marginBottom: "0px" }}>
+              Invalid Syntax For Duration
             </p>
           ) : (
             ""
