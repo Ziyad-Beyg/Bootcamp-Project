@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import { Button } from "@mui/material";
 import { GlobalContext } from "../context/Context";
+import { toast } from "react-toastify";
 import axios from "axios";
 
 const workouts = [
@@ -44,12 +45,24 @@ export default function EditForm({ setOpen, allData }) {
   const [dateError, setDateError] = React.useState("");
 
   const today = new Date();
-    const nextMonth = new Date(
-      today.getFullYear(),
-      today.getMonth() + 1,
-      today.getDate()
-    );
-    const nextMonthDate = nextMonth.toISOString().split("T")[0];
+  const nextMonth = new Date(
+    today.getFullYear(),
+    today.getMonth() + 1,
+    today.getDate()
+  );
+  const nextMonthDate = nextMonth.toISOString().split("T")[0];
+
+  const notify = () =>
+    toast.success("Record Updated Successfully", {
+      position: "bottom-left",
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
 
   // const validateInputs = () => {
   //   let isValid = true;
@@ -151,6 +164,7 @@ export default function EditForm({ setOpen, allData }) {
         `http://localhost:8080/workout/${allData._id}`,
         body
       );
+      notify();
       setAllWorkouts(
         allWorkouts.map((item) => {
           console.log(item, allData, data, body);

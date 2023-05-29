@@ -20,6 +20,7 @@ import homeIcon from "../assets/home-icon.png";
 import aboutIcon from "../assets/about-icon.png";
 import newStyled from "@emotion/styled";
 import { Link } from "react-router-dom";
+import {toast} from 'react-toastify'
 
 const drawerWidth = "70%";
 
@@ -47,6 +48,18 @@ const MyComponent = newStyled("div")({
 function DrawerAppBar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const notify = () =>
+  toast.success("Logout Successfully", {
+    position: "bottom-left",
+    autoClose: 2500,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  });
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -127,6 +140,7 @@ function DrawerAppBar(props) {
                 onClick={()=>{
                   localStorage.removeItem("Token");
                   localStorage.removeItem("RefreshToken");
+                  notify()
                   location.replace('/')
                 }}
               >

@@ -8,35 +8,13 @@ import Login from "./screens/Login/Login";
 import SignUp from "./screens/SignUp/SignUp";
 import Favourite from "./screens/Favourite";
 import ContextProvider from "./context/Context";
-
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import "./app.css";
 
-// const [Token, setToken] = useState(tokenCheck())
-
-const Token = localStorage.getItem('Token') 
-// const tokenCheck = () => {
-
-// if(token){
-//   return true
-// }
-// else{
-//   return false
-
-// }
- 
-
-// }
+const Token = localStorage.getItem("Token");
 
 export const routes1 = createBrowserRouter([
-  // { path: "/", element: <Home /> },
-  // {
-  //   path: "/about",
-  //   element: <About />,
-  // },
-  // {
-  //   path: "/exercises",
-  //   element: <Exercise />,
-  // },
   {
     path: "/",
     element: <Login />,
@@ -69,9 +47,20 @@ export const routes2 = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    
     <ContextProvider>
-    <RouterProvider router={ Token ? routes2 : routes1} />
+      <ToastContainer
+        position="bottom-left"
+        autoClose={2500}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      <RouterProvider router={Token ? routes2 : routes1} />
     </ContextProvider>
   </React.StrictMode>
 );
