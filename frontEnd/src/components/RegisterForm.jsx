@@ -88,7 +88,7 @@ const RegisterForm = () => {
       }
     } catch (err) {
       alert(err.response.data.error);
-    }
+    } 
   };
 
   return (

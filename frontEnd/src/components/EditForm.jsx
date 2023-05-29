@@ -37,76 +37,132 @@ export default function EditForm({ setOpen, allData }) {
   const [type, setType] = React.useState(allData.type);
   const [duration, setDuration] = React.useState(allData.duration);
   const [date, setDate] = React.useState(allData.date);
-  const [titleError, setTitleError] = React.useState(false);
-  const [descriptionError, setDescriptionError] = React.useState(false);
-  const [typeError, setTypeError] = React.useState(false);
-  const [durationError, setDurationError] = React.useState(false);
-  const [dateError, setDateError] = React.useState(false);
+  const [titleError, setTitleError] = React.useState("");
+  const [descriptionError, setDescriptionError] = React.useState("");
+  const [typeError, setTypeError] = React.useState("");
+  const [durationError, setDurationError] = React.useState("");
+  const [dateError, setDateError] = React.useState("");
 
-  const validateInputs = () => {
-    let isValid = true;
+  const today = new Date();
+    const nextMonth = new Date(
+      today.getFullYear(),
+      today.getMonth() + 1,
+      today.getDate()
+    );
+    const nextMonthDate = nextMonth.toISOString().split("T")[0];
+
+  // const validateInputs = () => {
+  //   let isValid = true;
+
+  //   if (title.trim() === "") {
+  //     setTitleError(true);
+  //     isValid = false;
+  //   } else {
+  //     setTitleError(false);
+  //   }
+
+  //   if (description.trim() === "") {
+  //     setDescriptionError(true);
+  //     isValid = false;
+  //   } else {
+  //     setDescriptionError(false);
+  //   }
+
+  //   if (type.trim() === "") {
+  //     setTypeError(true);
+  //     isValid = false;
+  //   } else {
+  //     setTypeError(false);
+  //   }
+
+  //   if (duration.trim() === "") {
+  //     setDurationError(true);
+  //     isValid = false;
+  //   } else {
+  //     setDurationError(false);
+  //   }
+
+  //   if (date.trim() === "") {
+  //     setDateError(true);
+  //     isValid = false;
+  //   } else {
+  //     setDateError(false);
+  //   }
+
+  //   // Add more validation checks for additional input fields if needed
+
+  //   return isValid;
+  // };
+
+  const UpdateToDb = async () => {
+    const stringRegex = /^[A-Za-z]+( [A-Za-z]+)*$/;
+    const numberRegex = /^[0-9]+$/;
+    const durationRegex = /^\d{2}$/;
 
     if (title.trim() === "") {
-      setTitleError(true);
-      isValid = false;
+      setTitleError("Title can not be empty");
+      return;
+    } else if (!stringRegex.test(title)) {
+      setTitleError("Title can only contain letters.");
+      return;
     } else {
-      setTitleError(false);
-    }
-
-    if (description.trim() === "") {
-      setDescriptionError(true);
-      isValid = false;
-    } else {
-      setDescriptionError(false);
+      setTitleError("");
     }
 
     if (type.trim() === "") {
-      setTypeError(true);
-      isValid = false;
+      setTypeError("Type can not be empty");
+      return;
     } else {
-      setTypeError(false);
+      setTypeError("");
+    }
+
+    if (description.trim() === "") {
+      setDescriptionError("Description can not be empty");
+      return;
+    } else if (!stringRegex.test(description)) {
+      setDescriptionError("Description can only contain letters.");
+      return;
+    } else {
+      setDescriptionError("");
     }
 
     if (duration.trim() === "") {
-      setDurationError(true);
-      isValid = false;
+      setDurationError("Duration can not be empty");
+      return;
+    } else if (duration.length > 2) {
+      setDurationError("Duration can only consist of two numbers.");
+      return;
+    } else if (!durationRegex.test(duration)) {
+      setDurationError("Duration can only contain numbers.");
+      return;
     } else {
-      setDurationError(false);
+      setDurationError("");
     }
-
     if (date.trim() === "") {
-      setDateError(true);
-      isValid = false;
+      setDateError("Date can not be empty");
+      return;
     } else {
-      setDateError(false);
+      setDateError("");
     }
 
-    // Add more validation checks for additional input fields if needed
-
-    return isValid;
-  };
-
-  const UpdateToDb = async () => {
-    if (validateInputs()) {
+    try {
       const body = { title, description, type, duration, date };
-      try {
-        const { data } = await axios.put(
-          `http://localhost:8080/workout/${allData._id}`,
-          body
-        );
-        setAllWorkouts(
-          allWorkouts.map((item) => {
-            console.log(item, allData, data, body);
-            return item._id == allData?._id ? data : item;
-          })
-        );
-        console.log(data);
-      } catch (e) {
-        alert(e.message);
-      }
-
-      setOpen(false);
+      const { data } = await axios.put(
+        `http://localhost:8080/workout/${allData._id}`,
+        body
+      );
+      setAllWorkouts(
+        allWorkouts.map((item) => {
+          console.log(item, allData, data, body);
+          return item._id == allData?._id ? data : item;
+        })
+      );
+      console.log(data);
+    } catch (e) {
+      alert(e.message);
     }
+
+    setOpen(false);
   };
 
   //   const descriptionObject = {
@@ -148,13 +204,7 @@ export default function EditForm({ setOpen, allData }) {
           setTitle(event.target.value);
         }}
         helperText={
-          titleError ? (
-            <p style={{ color: "red", marginBottom: "0px" }}>
-              Title can not be empty
-            </p>
-          ) : (
-            ""
-          )
+          <p style={{ color: "red", marginBottom: "0px" }}>{titleError}</p>
         }
       />
 
@@ -170,13 +220,7 @@ export default function EditForm({ setOpen, allData }) {
           setType(event.target.value);
         }}
         helperText={
-          typeError ? (
-            <p style={{ color: "red", marginBottom: "0px" }}>
-              Type can not be empty
-            </p>
-          ) : (
-            ""
-          )
+          <p style={{ color: "red", marginBottom: "0px" }}>{typeError}</p>
         }
       >
         {workouts.map((option, index) => (
@@ -199,13 +243,9 @@ export default function EditForm({ setOpen, allData }) {
           setDescription(event.target.value);
         }}
         helperText={
-          descriptionError ? (
-            <p style={{ color: "red", marginBottom: "0px" }}>
-              Description can not be empty
-            </p>
-          ) : (
-            ""
-          )
+          <p style={{ color: "red", marginBottom: "0px" }}>
+            {descriptionError}
+          </p>
         }
       />
 
@@ -220,13 +260,7 @@ export default function EditForm({ setOpen, allData }) {
           setDuration(event.target.value);
         }}
         helperText={
-          durationError ? (
-            <p style={{ color: "red", marginBottom: "0px" }}>
-              Duration can not be empty
-            </p>
-          ) : (
-            ""
-          )
+          <p style={{ color: "red", marginBottom: "0px" }}>{durationError}</p>
         }
       />
 
@@ -237,17 +271,15 @@ export default function EditForm({ setOpen, allData }) {
         type="date"
         variant="standard"
         required
+        inputProps={{
+          min: new Date().toISOString().split("T")[0],
+          max: nextMonthDate,
+        }}
         onChange={(event) => {
           setDate(event.target.value);
         }}
         helperText={
-          dateError ? (
-            <p style={{ color: "red", marginBottom: "0px" }}>
-              Date can not be empty
-            </p>
-          ) : (
-            ""
-          )
+          <p style={{ color: "red", marginBottom: "0px" }}>{dateError}</p>
         }
         ii
       />

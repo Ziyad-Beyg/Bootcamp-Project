@@ -44,104 +44,157 @@ export default function StateTextFields({ setOpen }) {
   const { allWorkouts, setAllWorkouts } = useContext(GlobalContext);
 
   const [title, setTitle] = React.useState("");
-  const [titleError, setTitleError] = React.useState(false);
+  const [titleError, setTitleError] = React.useState("");
 
   const [description, setDescription] = React.useState("");
-  const [descriptionError, setDescriptionError] = React.useState(false);
+  const [descriptionError, setDescriptionError] = React.useState("");
 
   const [type, setType] = React.useState("");
-  const [typeError, setTypeError] = React.useState(false);
+  const [typeError, setTypeError] = React.useState("");
 
   const [duration, setDuration] = React.useState("");
-  const [durationError, setDurationError] = React.useState(false);
+  const [durationError, setDurationError] = React.useState("");
 
   const [date, setDate] = React.useState("");
-  const [dateError, setDateError] = React.useState(false);
+  const [dateError, setDateError] = React.useState("");
 
   const [titleSyntax, setTitleSyntax] = React.useState(false);
   const [descriptionSyntax, setDescriptionSyntax] = React.useState(false);
   const [durationSyntax, setDurationSyntax] = React.useState(false);
 
-  const validateInputs = () => {
-    let isValid = true;
-    const regex = /^[A-Za-z]+( [A-Za-z]+)*$/;
-    const numRegex = /^[0-9]*$/;
+  const today = new Date();
+  const nextMonth = new Date(
+    today.getFullYear(),
+    today.getMonth() + 1,
+    today.getDate()
+  );
+  const nextMonthDate = nextMonth.toISOString().split("T")[0];
+
+  // const validateInputs = () => {
+  //   let isValid = true;
+  //   const regex = /^[A-Za-z]+( [A-Za-z]+)*$/;
+  //   const numRegex = /^[0-9]*$/;
+
+  //   if (title.trim() === "") {
+  //     setTitleError(true);
+  //     isValid = false;
+  //   } else {
+  //     if (regex.test(title)) {
+  //       setTitleSyntax(false);
+  //       console.log("MATCHED", regex.test(title));
+  //     } else {
+  //       setTitleSyntax(true);
+  //       console.log("NOT MATCHED");
+  //     }
+  //     setTitleError(false);
+  //   }
+
+  //   if (description.trim() === "") {
+  //     setDescriptionError(true);
+  //     isValid = false;
+  //   } else {
+  //     setDescriptionError(false);
+  //   }
+
+  //   if (type.trim() === "") {
+  //     setTypeError(true);
+  //     isValid = false;
+  //   } else {
+  //     setTypeError(false);
+  //   }
+
+  //   if (duration.trim() === "") {
+  //     setDurationError(true);
+  //     isValid = false;
+  //   } else {
+  //     if (numRegex.test(duration)) {
+  //       setDurationSyntax(false);
+  //       console.log("MATCHED", regex.test(duration));
+  //     } else {
+  //       setDurationSyntax(true);
+  //       console.log("NOT MATCHED");
+  //     }
+  //     setDurationError(false);
+  //   }
+
+  //   if (date.trim() === "") {
+  //     setDateError(true);
+  //     isValid = false;
+  //   } else {
+  //     setDateError(false);
+  //   }
+
+  //   // Add more validation checks for additional input fields if needed
+
+  //   return isValid;
+  // };
+
+  const saveToDb = async () => {
+    const stringRegex = /^[A-Za-z]+( [A-Za-z]+)*$/;
+    const numberRegex = /^[0-9]+$/;
+    const durationRegex = /^\d{2}$/;
 
     if (title.trim() === "") {
-      setTitleError(true);
-      isValid = false;
+      setTitleError("Title can not be empty");
+      return;
+    } else if (!stringRegex.test(title)) {
+      setTitleError("Title can only contain letters.");
+      return;
     } else {
-      if (regex.test(title)) {
-        setTitleSyntax(false);
-        console.log("MATCHED", regex.test(title));
-      } else {
-        setTitleSyntax(true);
-        console.log("NOT MATCHED");
-      }
-      setTitleError(false);
-    }
-
-    if (description.trim() === "") {
-      setDescriptionError(true);
-      isValid = false;
-    } else {
-      setDescriptionError(false);
+      setTitleError("");
     }
 
     if (type.trim() === "") {
-      setTypeError(true);
-      isValid = false;
+      setTypeError("Type can not be empty");
+      return;
     } else {
-      setTypeError(false);
+      setTypeError("");
+    }
+
+    if (description.trim() === "") {
+      setDescriptionError("Description can not be empty");
+      return;
+    } else if (!stringRegex.test(description)) {
+      setDescriptionError("Description can only contain letters.");
+      return;
+    } else {
+      setDescriptionError("");
     }
 
     if (duration.trim() === "") {
-      setDurationError(true);
-      isValid = false;
+      setDurationError("Duration can not be empty");
+      return;
+    } else if (duration.length > 2) {
+      setDurationError("Duration can only consist of two numbers.");
+      return;
+    } else if (!durationRegex.test(duration)) {
+      setDurationError("Duration can only contain numbers.");
+      return;
     } else {
-      if (numRegex.test(duration)) {
-        setDurationSyntax(false);
-        console.log("MATCHED", regex.test(duration));
-      } else {
-        setDurationSyntax(true);
-        console.log("NOT MATCHED");
-      }
-      setDurationError(false);
+      setDurationError("");
     }
-
     if (date.trim() === "") {
-      setDateError(true);
-      isValid = false;
+      setDateError("Date can not be empty");
+      return;
     } else {
-      setDateError(false);
+      setDateError("");
     }
 
-    // Add more validation checks for additional input fields if needed
+    console.log("No Error Found");
+    try {
+      const body = { title, description, type, duration, date };
+      const { data } = await axios.post("http://localhost:8080/workout", body);
+      const WorkOutClone = allWorkouts.slice(0);
+      WorkOutClone.push(data);
+      setAllWorkouts(WorkOutClone);
 
-    return isValid;
-  };
-
-  const saveToDb = async () => {
-    if (validateInputs()) {
-      // if (!titleSyntax && !descriptionSyntax) {
-        console.log("No Error Found");
-        const body = { title, description, type, duration, date };
-        try {
-          const { data } = await axios.post(
-            "http://localhost:8080/workout",
-            body
-          );
-        const WorkOutClone = allWorkouts.slice(0);
-        WorkOutClone.push(data);
-        setAllWorkouts(WorkOutClone);
-
-          console.log(data);
-        } catch (e) {
-          alert(e.message);
-        }
-        setOpen(false);
-      // }
+      console.log(data);
+    } catch (e) {
+      alert(e.message);
+      setOpen(false);
     }
+
+    setOpen(false);
   };
 
   // let const obj = {};
@@ -186,17 +239,7 @@ export default function StateTextFields({ setOpen }) {
           setTitle(event.target.value);
         }}
         helperText={
-          titleError ? (
-            <p style={{ color: "red", marginBottom: "0px" }}>
-              Title can not be empty
-            </p>
-          ) : titleSyntax ? (
-            <p style={{ color: "red", marginBottom: "0px" }}>
-              Invalid Syntax For Title
-            </p>
-          ) : (
-            ""
-          )
+          <p style={{ color: "red", marginBottom: "0px" }}>{titleError}</p>
         }
       />
 
@@ -212,13 +255,7 @@ export default function StateTextFields({ setOpen }) {
           setType(event.target.value);
         }}
         helperText={
-          typeError ? (
-            <p style={{ color: "red", marginBottom: "0px" }}>
-              Type can not be empty
-            </p>
-          ) : (
-            ""
-          )
+          <p style={{ color: "red", marginBottom: "0px" }}>{typeError}</p>
         }
       >
         {workouts.map((option, index) => (
@@ -239,23 +276,15 @@ export default function StateTextFields({ setOpen }) {
           setDescription(event.target.value);
         }}
         helperText={
-          descriptionError ? (
-            <p style={{ color: "red", marginBottom: "0px" }}>
-              Description can not be empty
-            </p>
-          ) : descriptionSyntax ? (
-            <p style={{ color: "red", marginBottom: "0px" }}>
-              Invalid Syntax For Description
-            </p>
-          ) : (
-            ""
-          )
+          <p style={{ color: "red", marginBottom: "0px" }}>
+            {descriptionError}
+          </p>
         }
       />
 
       <StyledTextField
         id="outlined-controlled"
-        label="Duration"
+        label="Duration in mins"
         value={duration}
         type="number"
         variant="standard"
@@ -264,17 +293,7 @@ export default function StateTextFields({ setOpen }) {
           setDuration(event.target.value);
         }}
         helperText={
-          durationError ? (
-            <p style={{ color: "red", marginBottom: "0px" }}>
-              Duration can not be empty
-            </p>
-          ) : durationSyntax ? (
-            <p style={{ color: "red", marginBottom: "0px" }}>
-              Invalid Syntax For Duration
-            </p>
-          ) : (
-            ""
-          )
+          <p style={{ color: "red", marginBottom: "0px" }}>{durationError}</p>
         }
       />
 
@@ -285,17 +304,15 @@ export default function StateTextFields({ setOpen }) {
         type="date"
         variant="standard"
         required
+        inputProps={{
+          min: new Date().toISOString().split("T")[0],
+          max: nextMonthDate,
+        }}
         onChange={(event) => {
           setDate(event.target.value);
         }}
         helperText={
-          dateError ? (
-            <p style={{ color: "red", marginBottom: "0px" }}>
-              Date can not be empty
-            </p>
-          ) : (
-            ""
-          )
+          <p style={{ color: "red", marginBottom: "0px" }}>{dateError}</p>
         }
       />
 

@@ -42,44 +42,43 @@ const LoginForm = () => {
   };
 
   const handleSubmit = async () => {
-    if (!EmailValidator.validate(value.email)) {
+    if (value.email.trim() === "") {
+      setEmailError("Email can not be empty.");
+      return;
+    } else if (!EmailValidator.validate(value.email)) {
       setEmailError("Please enter a valid email address");
       return;
     }
-    // const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[\W_]).{8,}$/;
-    if (!passwordRegex.test(value.password)) {
-      setPasswordError(
-        'Password must be at least 8 characters long and contain at least one letter and one number.'
-      );
-    } else {
-      // Password is valid, do something with it
-      console.log('Valid password:', value.password);
-    }
-    // if (value.password.length < 8) {
-    //   setPasswordError('Password should be at least 8 characters long.');
-    //   console.log("Nae chala");
 
-    //   // return
-    // } else {
-    //   // Password is valid, do something with it
-    //   console.log('Valid password:', value.password);
-    //   console.log("chal gaya");
-    // }
-    // try {
-    //   const {
-    //     status,
-    //     data: { token, refreshToken },
-    //   } = await axios.post(`http://localhost:8080/${formState}`, value);
-    //   if (status === 201) {
-    //     localStorage.setItem("Token", token);
-    //     localStorage.setItem("RefreshToken", refreshToken);
-    //     location.replace("/");
-    //     //  navigate("/");
-    //   }
-    // } catch (err) {
-    //   alert(err.message);
-    // }
+    const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[\W_]).{8,}$/;
+    if (value.password.trim() === "") {
+      setPasswordError("Password can not be empty.");
+      return;
+    } else if (value.password.length < 8) {
+      setPasswordError("Password must be at least 8 characters long.");
+      return;
+    } else if (!passwordRegex.test(value.password)) {
+      setPasswordError(
+        "Password must contain at least one letter, one number and one special character."
+      );
+      return;
+    }
+
+    try {
+      const {
+        status,
+        data: { token, refreshToken },
+      } = await axios.post(`http://localhost:8080/${formState}`, value);
+      if (status === 201) {
+        localStorage.setItem("Token", token);
+        localStorage.setItem("RefreshToken", refreshToken);
+        location.replace("/");
+        //  navigate("/");
+      }
+    } catch (err) {
+      console.log(err)
+      alert(err.response.data);
+    }
   };
   return (
     <main className="FormComponent" style={{ width: "50%", zIndex: "1111" }}>
@@ -112,6 +111,11 @@ const LoginForm = () => {
               onChange={handleChange}
               error={!!emailError}
               helperText={emailError}
+              onKeyDown={(event) => {
+                if (event.keyCode === 32) {
+                  event.preventDefault();
+                }
+              }}
               sx={{
                 marginTop: "10px",
                 borderRadius: "10px",
@@ -143,6 +147,11 @@ const LoginForm = () => {
                 }}
                 value={value.password}
                 onChange={handleChange}
+                onKeyDown={(event) => {
+                  if (event.keyCode === 32) {
+                    event.preventDefault();
+                  }
+                }}
                 error={!!passwordError}
                 endAdornment={
                   <InputAdornment position="end">
@@ -158,7 +167,9 @@ const LoginForm = () => {
                 }
                 label="Password"
               />
-              {passwordError && <FormHelperText error>{passwordError}</FormHelperText>}
+              {passwordError && (
+                <FormHelperText error>{passwordError}</FormHelperText>
+              )}
             </FormControl>
 
             <p

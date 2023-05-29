@@ -8,6 +8,7 @@ import EditForm from "./EditForm";
 import axios from "axios";
 import { Box, Modal } from "@mui/material";
 import { GlobalContext } from "../context/Context";
+import DeleteForm from "./DeleteForm";
 
 const style = {
   position: "absolute",
@@ -25,6 +26,7 @@ export default function ImgMediaCard({ singleData }) {
   const { allWorkouts, setAllWorkouts } = useContext(GlobalContext);
 
   const [open, setOpen] = React.useState(false);
+  const [edit, setEdit] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   return (
@@ -42,7 +44,7 @@ export default function ImgMediaCard({ singleData }) {
               {singleData.title}
             </Typography>
             <Typography gutterBottom variant="body2" component="p">
-              {singleData.duration}
+              {singleData.duration} mins.
             </Typography>
           </span>
           <Typography
@@ -80,6 +82,7 @@ export default function ImgMediaCard({ singleData }) {
             size="small"
             onClick={() => {
               setOpen(true);
+              setEdit(true);
             }}
           >
             EDIT
@@ -93,18 +96,9 @@ export default function ImgMediaCard({ singleData }) {
               padding: "5px 40px",
             }}
             size="small"
-            onClick={async () => {
-              try {
-                const { data } = await axios.delete(
-                  `http://localhost:8080/workout/${singleData._id}`
-                );
-                setAllWorkouts(
-                  allWorkouts.filter((item) => item._id !== singleData._id)
-                );
-                console.log(data);
-              } catch (e) {
-                alert(e.message);
-              }
+            onClick={() => {
+              setOpen(true);
+              setEdit(false);
             }}
           >
             DELETE
@@ -119,7 +113,7 @@ export default function ImgMediaCard({ singleData }) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <EditForm setOpen={setOpen} allData={singleData} />
+          {edit ? <EditForm setOpen={setOpen} allData={singleData} /> : <DeleteForm setOpen={setOpen} allData={singleData} />}
         </Box>
       </Modal>
     </>

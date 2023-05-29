@@ -5,6 +5,7 @@ import Paper from "@mui/material/Paper";
 import ImgMediaCard from "./SingleCard";
 import axios from "axios";
 import { GlobalContext } from "../context/Context";
+import noData from "../assets/no-data.png";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -27,9 +28,7 @@ export default function ResponsiveGrid() {
     try {
       const { data } = await axios.get("http://localhost:8080/workouts");
       setAllWorkouts(data);
-      // dispatch({ type: "ALL_WORKOUTS", payload: data });
       console.log(allWorkouts);
-      // console.log(state);
     } catch (e) {
       alert(e.message);
     }
@@ -39,16 +38,36 @@ export default function ResponsiveGrid() {
     <Box
       sx={{
         flexGrow: 1,
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "center",
-        gap: "20px",
+
         marginTop: "120px",
       }}
     >
-      {allWorkouts.map((singleData) => (
-        <ImgMediaCard key={singleData._id} singleData={singleData} />
-      ))}
+      <h1 style={{ fontSize: "42px", margin: "15px ", fontStyle: "italic" }}>
+        Your {"  "}
+        <span style={{ letterSpacing: "3px", fontWeight: "bolder" }}>
+          EXERCISES
+        </span>
+      </h1>
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: "20px",
+        }}
+      >
+        {allWorkouts.length > 0 ? (
+          allWorkouts.map((singleData) => (
+            <ImgMediaCard key={singleData._id} singleData={singleData} />
+          ))
+        ) : (
+          <img
+            src={noData}
+            style={{ width: "30%", minWidth: "400px", objectFit: "contain" }}
+            alt="no data image"
+          />
+        )}
+      </Box>
     </Box>
   );
 }
