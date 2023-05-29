@@ -7,6 +7,8 @@ import Home from "./screens/Home";
 import Login from "./screens/Login/Login";
 import SignUp from "./screens/SignUp/SignUp";
 import Favourite from "./screens/Favourite";
+import ContextProvider from "./context/Context";
+
 import "./app.css";
 
 // const [Token, setToken] = useState(tokenCheck())
@@ -75,6 +77,9 @@ export const routes2 = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
+    
+    <ContextProvider>
     <RouterProvider router={ Token ? routes2 : routes1} />
+    </ContextProvider>
   </React.StrictMode>
 );

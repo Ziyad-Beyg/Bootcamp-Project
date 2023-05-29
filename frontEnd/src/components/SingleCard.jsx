@@ -1,109 +1,118 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import EditForm from './EditForm'
+import EditForm from "./EditForm";
 import axios from "axios";
 import { Box, Modal } from "@mui/material";
+import { GlobalContext } from "../context/Context";
 
 const style = {
-  position: 'absolute' ,
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   maxWidth: 500,
-  bgcolor: 'background.paper',
-  border: '2px solid #fff',
+  bgcolor: "background.paper",
+  border: "2px solid #fff",
   boxShadow: 24,
   p: 4,
 };
 
 export default function ImgMediaCard({ singleData }) {
+  const { allWorkouts, setAllWorkouts } = useContext(GlobalContext);
+
   const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   return (
     <>
-    <Card sx={{ maxWidth: 345, padding: "20px" }}>
-      <CardContent>
-        <span
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Typography gutterBottom variant="h4" component="h4">
-            {singleData.title}
+      <Card sx={{ maxWidth: 345, padding: "20px" }}>
+        <CardContent>
+          <span
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography gutterBottom variant="h4" component="h4">
+              {singleData.title}
+            </Typography>
+            <Typography gutterBottom variant="body2" component="p">
+              {singleData.duration}
+            </Typography>
+          </span>
+          <Typography
+            gutterBottom
+            variant="body1"
+            component="p"
+            sx={{ color: "#50A060", fontWeight: "bold" }}
+          >
+            {singleData.type}
           </Typography>
-          <Typography gutterBottom variant="body2" component="p">
-            {singleData.duration}
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ textAlign: "justify" }}
+          >
+            {singleData.description}
           </Typography>
-        </span>
-        <Typography
-          gutterBottom
-          variant="body1"
-          component="p"
-          sx={{ color: "#50A060", fontWeight: "bold" }}
+          <Typography
+            gutterBottom
+            sx={{ padding: "10px 0px" }}
+            variant="body2"
+            component="div"
           >
-          {singleData.type}
-        </Typography>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          sx={{ textAlign: "justify" }}
+            {singleData.date}
+          </Typography>
+        </CardContent>
+        <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Button
+            variant="outlined"
+            sx={{
+              color: "#50A060",
+              borderColor: "#50A060",
+              padding: "5px 40px",
+            }}
+            size="small"
+            onClick={() => {
+              setOpen(true);
+            }}
           >
-          {singleData.description}
-        </Typography>
-        <Typography
-          gutterBottom
-          sx={{ padding: "10px 0px" }}
-          variant="body2"
-          component="div"
+            EDIT
+          </Button>
+          <Button
+            variant="contained"
+            sx={{
+              color: "#50A060",
+              backgroundColor: "#edf5ef",
+              borderColor: "#50A060",
+              padding: "5px 40px",
+            }}
+            size="small"
+            onClick={async () => {
+              try {
+                const { data } = await axios.delete(
+                  `http://localhost:8080/workout/${singleData._id}`
+                );
+                setAllWorkouts(
+                  allWorkouts.filter((item) => item._id !== singleData._id)
+                );
+                console.log(data);
+              } catch (e) {
+                alert(e.message);
+              }
+            }}
           >
-          {singleData.date}
-        </Typography>
-      </CardContent>
-      <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Button
-          variant="outlined"
-          sx={{ color: "#50A060", borderColor: "#50A060", padding: "5px 40px" }}
-          size="small"
-          onClick={()=>{
-            setOpen(true)
+            DELETE
+          </Button>
+        </CardActions>
+      </Card>
 
-          }}
-          >
-          EDIT
-        </Button>
-        <Button
-          variant="contained"
-          sx={{
-            color: "#50A060",
-            backgroundColor: "#edf5ef",
-            borderColor: "#50A060",
-            padding: "5px 40px",
-          }}
-          size="small"
-          onClick={async () => {
-            try {
-              const { data } = await axios.delete(
-                `http://localhost:8080/workout/${singleData._id}`
-              );
-              console.log(data);
-            } catch (e) {
-              alert(e.message);
-            }
-          }}
-          >
-          DELETE
-        </Button>
-      </CardActions>
-    </Card>
-
-    <Modal
+      <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -113,6 +122,6 @@ export default function ImgMediaCard({ singleData }) {
           <EditForm setOpen={setOpen} allData={singleData} />
         </Box>
       </Modal>
-          </>
+    </>
   );
 }
