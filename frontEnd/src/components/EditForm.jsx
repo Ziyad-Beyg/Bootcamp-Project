@@ -94,11 +94,10 @@ export default function EditForm({ setOpen, allData }) {
           `http://localhost:8080/workout/${allData._id}`,
           body
         );
-        // const workOutClone = allWorkouts.slice(0);
-        // workOutClone.push(data);
         setAllWorkouts(
           allWorkouts.map((item) => {
-            item._id == data._id ? { ...item, item: data } : item;
+            console.log(item, allData, data, body);
+            return item._id == allData?._id ? data : item;
           })
         );
         console.log(data);

@@ -85,14 +85,20 @@ app.delete("/workout/:id", async (req, res) => {
   }
 });
 
-app.post("/register", (req, res) => {
+app.post("/register", async (req, res) => {
   try {
     const { username, email, password } = req.body;
-    bcrypt.hash(password, 10).then((hashedPassword) => {
-      const user = new User({ username, email, password: hashedPassword });
-      user.save();
-      return res.status(201).send({ user });
-    });
+    const isUser = await User.findOne({ email });
+    if (isUser) {
+      console.log("same", isUser, email);
+      return res.status(409).json({ error: "Email already exists" });
+    } else {
+      bcrypt.hash(password, 10).then((hashedPassword) => {
+        const user = new User({ username, email, password: hashedPassword });
+        user.save();
+        return res.status(201).send({ user });
+      });
+    }
   } catch (e) {
     return res.status(500).json({ message: e.message });
   }
@@ -108,7 +114,8 @@ app.post("/login", (req, res) => {
             return res.status(401).send(err || "Wrong Password");
           const token = jwt.sign(
             { id: user._id, username: user.username },
-            process.env.JWT_SECRET, {expiresIn: '1m'}
+            process.env.JWT_SECRET,
+            { expiresIn: "1m" }
           );
           const refreshToken = jwt.sign(
             { id: user._id, username: user.username },
@@ -128,7 +135,7 @@ app.post("/login", (req, res) => {
   }
 });
 
-app.get("/refresh", Auth,  (req, res) => {
+app.get("/refresh", Auth, (req, res) => {
   try {
     const { user } = req;
     const token = jwt.sign(

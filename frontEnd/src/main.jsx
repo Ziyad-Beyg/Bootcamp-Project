@@ -61,14 +61,6 @@ export const routes2 = createBrowserRouter([
     path: "/exercises",
     element: <Exercise />,
   },
-  // {
-  //   path: "/login",
-  //   element: <Login />,
-  // },
-  // {
-  //   path: "/register",
-  //   element: <SignUp />,
-  // },
   {
     path: "*",
     element: <Favourite />,

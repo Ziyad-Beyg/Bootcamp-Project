@@ -85,13 +85,6 @@ export default function StateTextFields({ setOpen }) {
       setDescriptionError(true);
       isValid = false;
     } else {
-      if (regex.test(description)) {
-        setDescriptionSyntax(false);
-        console.log("MATCHED", regex.test(description));
-      } else {
-        setDescriptionSyntax(true);
-        console.log("NOT MATCHED");
-      }
       setDescriptionError(false);
     }
 
