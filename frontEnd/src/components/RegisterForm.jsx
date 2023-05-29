@@ -3,6 +3,7 @@ import logo from "../assets/logo.png";
 import signIn from "../assets/SigninIcon.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import './../app.css'
 
 const RegisterForm = () => {
   const [formState, setFormState] = useState("register");
@@ -25,8 +26,8 @@ const RegisterForm = () => {
         data: { token, refreshToken },
       } = await axios.post(`http://localhost:8080/${formState}`, value);
       if (status === 201) {
-        localStorage.setItem("Token", token);
-        localStorage.setItem("RefreshToken", refreshToken);
+        // localStorage.setItem("Token", token);
+        // localStorage.setItem("RefreshToken", refreshToken);
         navigate("/");
       }
     } catch (err) {
@@ -36,7 +37,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <main style={{ width: "50%" }}>
+    <main className="FormComponent" style={{ width: "50%" }}>
       <section
         style={{
           backgroundColor: "white",
@@ -149,7 +150,7 @@ const RegisterForm = () => {
               }}
             /> */}
 
-            <Link to={"/login"} style={{ textDecoration: "none" }}>
+            <Link to={"/"} style={{ textDecoration: "none" }}>
               <p
                 style={{
                   fontSize: "12px",

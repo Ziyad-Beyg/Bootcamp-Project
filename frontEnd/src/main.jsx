@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import About from "./screens/About";
@@ -8,6 +8,22 @@ import Login from "./screens/Login/Login";
 import SignUp from "./screens/SignUp/SignUp";
 import Favourite from "./screens/Favourite";
 import "./app.css";
+
+// const [Token, setToken] = useState(tokenCheck())
+
+const Token = localStorage.getItem('Token') 
+// const tokenCheck = () => {
+
+// if(token){
+//   return true
+// }
+// else{
+//   return false
+
+// }
+ 
+
+// }
 
 export const routes1 = createBrowserRouter([
   // { path: "/", element: <Home /> },
@@ -27,10 +43,10 @@ export const routes1 = createBrowserRouter([
     path: "/register",
     element: <SignUp />,
   },
-  // {
-  //   path: "/favorite",
-  //   element: <Favourite />,
-  // },
+  {
+    path: "*",
+    element: <Favourite />,
+  },
 ]);
 
 export const routes2 = createBrowserRouter([
@@ -52,13 +68,13 @@ export const routes2 = createBrowserRouter([
   //   element: <SignUp />,
   // },
   {
-    path: "/favorite",
+    path: "*",
     element: <Favourite />,
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={localStorage.getItem('Token') !== undefined ? routes2 : routes1} />
+    <RouterProvider router={ Token ? routes2 : routes1} />
   </React.StrictMode>
 );

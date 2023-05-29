@@ -1,8 +1,9 @@
 import { useState } from "react";
 import logo from "../assets/logo.png";
 import signIn from "../assets/SigninIcon.png";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import '../app.css'
 
 
 const LoginForm = () => {
@@ -13,7 +14,7 @@ const LoginForm = () => {
     password: "",
   });
 
-  const location = useLocation()
+  // const location = useLocation()
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -37,7 +38,8 @@ const LoginForm = () => {
     }
   };
   return (
-    <main style={{ width: "50%" }}>
+    <main className="FormComponent" style={{ width: "50%", zIndex:'1111'
+  }}>
       <section
         style={{
           backgroundColor: "white",

@@ -32,6 +32,7 @@ marginTop:"40px"
           width: "100%",
           overflow: "hidden",
         }}
+        className="green-section"
       >
         <img
           src={loginBg}

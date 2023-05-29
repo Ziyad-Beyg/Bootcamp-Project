@@ -124,6 +124,11 @@ function DrawerAppBar(props) {
                   fontSize: "16px",
                   letterSpacing: "1px",
                 }}
+                onClick={()=>{
+                  localStorage.removeItem("Token");
+                  localStorage.removeItem("RefreshToken");
+                  location.replace('/')
+                }}
               >
                 Logout
               </Button>

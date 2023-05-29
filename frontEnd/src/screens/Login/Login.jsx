@@ -3,6 +3,7 @@ import LoginForm from "../../components/LoginForm";
 import loginBg from "../../assets/loginBg.png";
 import Lottie from "lottie-react";
 import animationData from "../../assets/Befit.json";
+import '../../app.css'
 
 const Login = () => {
   
@@ -15,6 +16,7 @@ const Login = () => {
         margin: "0px",
         padding: "0px",
       }}
+      className="grid-main"
     >
       <section
         style={{
@@ -24,6 +26,7 @@ const Login = () => {
           justifyContent: "center",
           alignItems: "center",
         }}
+        className="form-section"
       >
         <LoginForm />
       </section>
@@ -33,6 +36,7 @@ const Login = () => {
           width: "100%",
           overflow: "hidden",
         }}
+        className="green-section"
       >
         <img
           src={loginBg}
@@ -44,6 +48,7 @@ const Login = () => {
             bottom: "150px",
             right: "4.1%",
           }}
+          className="animation-img"
         />
         <Lottie
           animationData={animationData}
@@ -54,6 +59,7 @@ const Login = () => {
             width: "800px",
             height: "800px",
           }}
+          className="animation"
         />
       </section>
 

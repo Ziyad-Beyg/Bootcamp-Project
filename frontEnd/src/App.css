@@ -22,3 +22,23 @@ img.vert-move {
   0% { transform: translateY(0); }
   100% { transform: translateY(-30px); }
 }
+
+@media (max-width: 1220px)  {
+  .animation{
+    display: none !important;
+  }
+  .animation-img{
+    display: none !important;
+
+  }
+  .green-section{
+    display: none !important;
+  }
+  .grid-main{
+    display: grid;
+    grid-template-columns: "90% ,1fr" !important
+  }
+  .FormComponent{
+    width: 100% !important;
+  }
+}
