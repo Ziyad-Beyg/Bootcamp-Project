@@ -16,6 +16,8 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import * as EmailValidator from "email-validator";
+import { toast } from "react-toastify";
+
 
 const RegisterForm = () => {
   const [formState, setFormState] = useState("register");
@@ -36,6 +38,18 @@ const RegisterForm = () => {
   });
 
   const navigate = useNavigate();
+
+  const notify = (err) =>
+    toast.error(`${err}`, {
+      position: "bottom-left",
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
 
   const handleChange = (e) => {
     setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -87,12 +101,12 @@ const RegisterForm = () => {
         navigate("/");
       }
     } catch (err) {
-      alert(err.response.data.error);
-    } 
+      notify(err.response.data.error)
+    }
   };
 
   return (
-    <main className="FormComponent" style={{ width: "50%" }}>
+    <main className="FormComponent" style={{ width: "50%", marginTop: "50px" }}>
       <section
         style={{
           backgroundColor: "white",
@@ -122,6 +136,9 @@ const RegisterForm = () => {
               onChange={handleChange}
               error={!!userNameError}
               helperText={userNameError}
+              inputProps={{
+                maxLength: 20,
+              }}
               sx={{
                 marginTop: "10px",
                 borderRadius: "10px",
@@ -139,6 +156,9 @@ const RegisterForm = () => {
               id="standard-controlled"
               name="email"
               label="Email"
+              inputProps={{
+                maxLength: 30,
+              }}
               value={value.email}
               onChange={handleChange}
               error={!!emailError}
@@ -169,6 +189,9 @@ const RegisterForm = () => {
                 id="outlined-adornment-password"
                 type={showPassword ? "text" : "password"}
                 name="password"
+                inputProps={{
+                  maxLength: 15,
+                }}
                 sx={{
                   outline: "none",
                   border: "none",
@@ -221,6 +244,7 @@ const RegisterForm = () => {
             </p>
 
             <button
+              className="registerBtn"
               style={{
                 marginTop: "10px",
                 backgroundColor: "#50A060",

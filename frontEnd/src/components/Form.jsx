@@ -6,6 +6,22 @@ import { Button } from "@mui/material";
 import axios from "axios";
 import { styled } from "@mui/material/styles";
 import { GlobalContext } from "../context/Context";
+import { toast } from "react-toastify";
+// import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+// const theme = createTheme({
+//   palette: {
+//     primary: {
+//       main: "#50A060", // Replace with your desired primary color
+//       contrastText: "#ffffff", // Replace with appropriate contrast text color
+//     },
+//     // Customize the hover effect color
+//     action: {
+//       hover: "#edf5ef",
+//       contrastText: "#ffffff", // Replace with your desired hover effect color
+//     },
+//   },
+// });
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
@@ -129,6 +145,11 @@ export default function StateTextFields({ setOpen }) {
   //   return isValid;
   // };
 
+  const notify = () =>
+    toast.success("Workout Added Successfully", {
+     
+    });
+
   const saveToDb = async () => {
     const stringRegex = /^[A-Za-z]+( [A-Za-z]+)*$/;
     const numberRegex = /^[0-9]+$/;
@@ -180,10 +201,12 @@ export default function StateTextFields({ setOpen }) {
       setDateError("");
     }
 
-    console.log("No Error Found");
     try {
-      const body = { title, description, type, duration, date };
+      const _userId = localStorage.getItem("UserId");
+      console.log(_userId);
+      const body = { _userId, title, description, type, duration, date };
       const { data } = await axios.post("http://localhost:8080/workout", body);
+      notify();
       const WorkOutClone = allWorkouts.slice(0);
       WorkOutClone.push(data);
       setAllWorkouts(WorkOutClone);
@@ -219,110 +242,115 @@ export default function StateTextFields({ setOpen }) {
   // }
 
   return (
-    <Box
-      component="form"
-      sx={{
-        "& > :not(style)": { m: 1, width: "100%" },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <TextField
-        id="outlined-controlled"
-        label="Title"
-        inputProps={{ inputMode: "text", pattern: "[A-Za-z]" }}
-        value={title}
-        type="text"
-        required
-        variant="standard"
-        onChange={(event) => {
-          setTitle(event.target.value);
+    <>
+      <Box
+        component="form"
+        sx={{
+          "& > :not(style)": { m: 1, width: "100%" },
         }}
-        helperText={
-          <p style={{ color: "red", marginBottom: "0px" }}>{titleError}</p>
-        }
-      />
-
-      <TextField
-        id="outlined-controlled"
-        label="Type"
-        value={type}
-        select
-        type="text"
-        variant="standard"
-        required
-        onChange={(event) => {
-          setType(event.target.value);
-        }}
-        helperText={
-          <p style={{ color: "red", marginBottom: "0px" }}>{typeError}</p>
-        }
+        noValidate
+        autoComplete="off"
       >
-        {workouts.map((option, index) => (
-          <MenuItem key={index} value={option.value}>
-            {option.label}
-          </MenuItem>
-        ))}
-      </TextField>
+        <TextField
+          id="outlined-controlled"
+          label="Title"
+          inputProps={{ inputMode: "text", pattern: "[A-Za-z]", maxLength: 20, }}
+          value={title}
+          type="text"
+          required
+          variant="standard"
+          onChange={(event) => {
+            setTitle(event.target.value);
+          }}
+          helperText={
+            <p style={{ color: "red", marginBottom: "0px" }}>{titleError}</p>
+          }
+        />
 
-      <TextField
-        id="outlined-controlled"
-        label="Description"
-        value={description}
-        type="text"
-        variant="standard"
-        required
-        onChange={(event) => {
-          setDescription(event.target.value);
-        }}
-        helperText={
-          <p style={{ color: "red", marginBottom: "0px" }}>
-            {descriptionError}
-          </p>
-        }
-      />
+        <TextField
+          id="outlined-controlled"
+          label="Type"
+          value={type}
+          select
+          type="text"
+          variant="standard"
+          required
+          onChange={(event) => {
+            setType(event.target.value);
+          }}
+          helperText={
+            <p style={{ color: "red", marginBottom: "0px" }}>{typeError}</p>
+          }
+        >
+          {workouts.map((option, index) => (
+            <MenuItem key={index} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
 
-      <StyledTextField
-        id="outlined-controlled"
-        label="Duration in mins"
-        value={duration}
-        type="number"
-        variant="standard"
-        required
-        onChange={(event) => {
-          setDuration(event.target.value);
-        }}
-        helperText={
-          <p style={{ color: "red", marginBottom: "0px" }}>{durationError}</p>
-        }
-      />
+        <TextField
+          id="outlined-controlled"
+          label="Description"
+          value={description}
+          type="text"
+          inputProps={{
+            maxLength: 50, 
+          }}
+          variant="standard"
+          required
+          onChange={(event) => {
+            setDescription(event.target.value);
+          }}
+          helperText={
+            <p style={{ color: "red", marginBottom: "0px" }}>
+              {descriptionError}
+            </p>
+          }
+        />
 
-      <TextField
-        id="outlined-controlled"
-        // label="Date"
-        value={date}
-        type="date"
-        variant="standard"
-        required
-        inputProps={{
-          min: new Date().toISOString().split("T")[0],
-          max: nextMonthDate,
-        }}
-        onChange={(event) => {
-          setDate(event.target.value);
-        }}
-        helperText={
-          <p style={{ color: "red", marginBottom: "0px" }}>{dateError}</p>
-        }
-      />
+        <StyledTextField
+          id="outlined-controlled"
+          label="Duration in mins"
+          value={duration}
+          type="number"
+          variant="standard"
+          required
+          onChange={(event) => {
+            setDuration(event.target.value);
+          }}
+          helperText={
+            <p style={{ color: "red", marginBottom: "0px" }}>{durationError}</p>
+          }
+        />
 
-      <Button
-        sx={{ backgroundColor: "#50A060" }}
-        variant="contained"
-        onClick={saveToDb}
-      >
-        SAVE
-      </Button>
-    </Box>
+        <TextField
+          id="outlined-controlled"
+          // label="Date"
+          value={date}
+          type="date"
+          variant="standard"
+          required
+          inputProps={{
+            min: new Date().toISOString().split("T")[0],
+            max: nextMonthDate,
+          }}
+          onChange={(event) => {
+            setDate(event.target.value);
+          }}
+          helperText={
+            <p style={{ color: "red", marginBottom: "0px" }}>{dateError}</p>
+          }
+        />
+
+        <Button
+          sx={{ backgroundColor: "#50A060" }}
+          variant="contained"
+          onClick={saveToDb}
+        >
+          SAVE
+        </Button>
+      </Box>
+    </>
   );
 }

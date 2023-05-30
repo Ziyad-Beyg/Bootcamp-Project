@@ -21,7 +21,7 @@ const SignUp = () => {
           width: "100%",
           display: "flex",
           justifyContent: "center",
-marginTop:"40px"
+          marginTop: "40px",
         }}
       >
         <RegisterForm />

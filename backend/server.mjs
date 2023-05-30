@@ -24,19 +24,19 @@ dotenv.config();
 const MONGODB_SERVER = process.env.MONGODB_SERVER;
 const PORT = process.env.PORT || 8080;
 
-// GET PRODUCT BY ID
-app.get("/workout/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const singleWorkout = await WorkOut.findById(id);
-    res.status(200).json(singleWorkout);
-  } catch (e) {
-    res.status(500).json({ message: e.message });
-  }
-});
+// // GET PRODUCT BY ID
+// app.get("/workout/:id", async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const singleWorkout = await WorkOut.findById(id);
+//     res.status(200).json(singleWorkout);
+//   } catch (e) {
+//     res.status(500).json({ message: e.message });
+//   }
+// });
 
 // GET ALL PRODUCTS
-app.get("/workouts", async (req, res) => {
+app.get("/allworkouts", Auth, async (req, res) => {
   try {
     const allWorkouts = await WorkOut.find();
     res.status(200).json(allWorkouts);
@@ -115,7 +115,7 @@ app.post("/login", (req, res) => {
           const token = jwt.sign(
             { id: user._id, username: user.username },
             process.env.JWT_SECRET,
-            { expiresIn: "1m" }
+            { expiresIn: "1h" }
           );
           const refreshToken = jwt.sign(
             { id: user._id, username: user.username },

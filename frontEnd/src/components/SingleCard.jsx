@@ -22,6 +22,8 @@ const style = {
   p: 4,
 };
 
+
+
 export default function ImgMediaCard({ singleData }) {
   const { allWorkouts, setAllWorkouts } = useContext(GlobalContext);
 

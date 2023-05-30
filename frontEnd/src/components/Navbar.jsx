@@ -140,8 +140,9 @@ function DrawerAppBar(props) {
                 onClick={()=>{
                   localStorage.removeItem("Token");
                   localStorage.removeItem("RefreshToken");
-                  notify()
+                  localStorage.removeItem("UserId");
                   location.replace('/')
+                  notify()
                 }}
               >
                 Logout

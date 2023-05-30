@@ -6,6 +6,15 @@
   font-family: sans-serif;
 }
 
+.loginBtn:hover{
+  cursor: pointer;
+}
+
+.registerBtn:hover{
+  cursor: pointer;
+}
+
+
 img.vert-move {
   -webkit-animation: mover 1.5s infinite  alternate;
   animation: mover 1.5s infinite  alternate;
@@ -40,5 +49,8 @@ img.vert-move {
   }
   .FormComponent{
     width: 100% !important;
+  }
+  .aboutImg{
+    display: none !important;
   }
 }

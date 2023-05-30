@@ -35,13 +35,13 @@ export default function ColumnsGrid() {
               fontFamily: "sans-serif",
               fontStyle: "normal",
               fontWeight: 800,
-              fontSize: "40px",
+              fontSize: "2.5rem",
             //   lineHeight: "75px",
             }}
           >
             A New Era of Fitness <br /> Standards
           </h1>
-          <img src={homeImage} width={500} style={{objectFit:"contain"}} alt="Home Image" />
+          <img src={homeImage}  style={{objectFit:"contain", width:'500px', minWidth:'350px'}} alt="Home Image" />
           <h3
             style={{
               textAlign: "center",

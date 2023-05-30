@@ -164,7 +164,16 @@ export default function EditForm({ setOpen, allData }) {
         `http://localhost:8080/workout/${allData._id}`,
         body
       );
-      notify();
+      toast.success("Record Updated Successfully", {
+        position: "bottom-left",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      })
       setAllWorkouts(
         allWorkouts.map((item) => {
           console.log(item, allData, data, body);
@@ -212,6 +221,9 @@ export default function EditForm({ setOpen, allData }) {
         label="Title"
         value={title}
         type="text"
+        inputProps={{
+          maxLength: 20, 
+        }}
         required
         variant="standard"
         onChange={(event) => {
@@ -250,9 +262,9 @@ export default function EditForm({ setOpen, allData }) {
         value={description}
         type="text"
         variant="standard"
-        // InputProps={{
-        //   readOnly: true,
-        // }}
+        inputProps={{
+          maxLength: 50, 
+        }}
         onChange={(event) => {
           setDescription(event.target.value);
         }}

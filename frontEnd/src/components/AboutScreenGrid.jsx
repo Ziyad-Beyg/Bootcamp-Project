@@ -10,7 +10,7 @@ export default function RowAndColumnSpacing() {
         {/* <div style={{height:'100px', backgroundColor: 'red'}}></div> */}
       <div>
       <Grid container  justifyContent="space-around" alignItems="center" rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{padding:'20px'}}>
-        <Grid item xs={7} >
+        <Grid item xs={12} sm={8} >
           <h1 style={{fontSize:'42px',margin:"15px ",  fontStyle: 'italic'}}>
             Just <span style={{letterSpacing:'3px', fontWeight:'bolder'}}>BE-FIT</span>
           </h1>
@@ -43,7 +43,7 @@ Join the BE-FIT community today and embark on a journey towards a healthier, fit
 
           </p>
         </Grid>
-        <Grid item xs={4}>
+        <Grid className='aboutImg' item xs={4}>
           <img src={aboutSvg} className="vert-move" alt="About Us Image" style={{width:'90%', objectFit:'contain'}} />
         </Grid>
       </Grid>

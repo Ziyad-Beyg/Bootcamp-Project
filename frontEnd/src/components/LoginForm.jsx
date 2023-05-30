@@ -16,6 +16,7 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import * as EmailValidator from "email-validator";
+import { toast } from "react-toastify";
 
 const LoginForm = () => {
   const [formState, setFormState] = useState("login");
@@ -34,6 +35,29 @@ const LoginForm = () => {
 
   // const location = useLocation()
   const navigate = useNavigate();
+
+  const notify = (text, status) =>
+    status == "login"
+      ? toast.success(`${text}`, {
+          position: "bottom-left",
+          autoClose: 2500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        })
+      : toast.error(`${text}`, {
+          position: "bottom-left",
+          autoClose: 2500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
 
   const handleChange = (e) => {
     setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -67,17 +91,19 @@ const LoginForm = () => {
     try {
       const {
         status,
-        data: { token, refreshToken },
+        data: { user, token, refreshToken },
       } = await axios.post(`http://localhost:8080/${formState}`, value);
+      console.log(user);
       if (status === 201) {
         localStorage.setItem("Token", token);
         localStorage.setItem("RefreshToken", refreshToken);
+        localStorage.setItem("UserId", user?._id);
         location.replace("/");
         //  navigate("/");
+        notify("Login Successfully", "login");
       }
     } catch (err) {
-      console.log(err)
-      alert(err.response.data);
+      notify(err.response.data, "error");
     }
   };
   return (
@@ -107,6 +133,9 @@ const LoginForm = () => {
               name="email"
               id="standard-controlled"
               label="Email"
+              inputProps={{
+                maxLength: 30,
+              }}
               value={value.email}
               onChange={handleChange}
               error={!!emailError}
@@ -137,6 +166,9 @@ const LoginForm = () => {
                 id="outlined-adornment-password"
                 name="password"
                 type={showPassword ? "text" : "password"}
+                inputProps={{
+                  maxLength: 15,
+                }}
                 sx={{
                   // backgroundColor: "#edf5ef",
                   outline: "none",
@@ -187,6 +219,7 @@ const LoginForm = () => {
               </Link>
             </p>
             <button
+              className="loginBtn"
               style={{
                 backgroundColor: "#50A060",
                 padding: "10px 20px",

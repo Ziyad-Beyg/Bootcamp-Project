@@ -18,15 +18,18 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function ResponsiveGrid() {
   const { allWorkouts, setAllWorkouts } = useContext(GlobalContext);
 
-  // const [AllData, setAllData] = useState([]);
-
   useEffect(() => {
     getAllData();
   }, []);
 
   const getAllData = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/workouts");
+      let token = localStorage.getItem("Token");
+      const { data } = await axios.get(`http://localhost:8080/allworkouts`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setAllWorkouts(data);
       console.log(allWorkouts);
     } catch (e) {
