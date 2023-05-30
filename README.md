@@ -6,7 +6,7 @@
 
 
 
-# Exercise Tracker (Frontend) 
+# Exercise Tracker
 
 The Exercise Tracker web app for exercise tracking is designed to help users manage their workout routines and track their progress. The app incorporates the basic CRUD operations, which stand for Create, Read, Update, and Delete, allowing users to perform essential actions on their exercises.
 
