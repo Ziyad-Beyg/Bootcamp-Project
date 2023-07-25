@@ -95,7 +95,7 @@ const RegisterForm = () => {
       const {
         status,
         // data: { token, refreshToken },
-      } = await axios.post(`http://localhost:8080/${formState}`, value);
+      } = await axios.post(`https://bootcamp-project.vercel.app/${formState}`, value);
       if (status === 201) {
         navigate("/");
       }
