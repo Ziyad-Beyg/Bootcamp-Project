@@ -6,6 +6,7 @@ import ImgMediaCard from "./SingleCard";
 import axios from "axios";
 import { GlobalContext } from "../context/Context";
 import noData from "../assets/no-data.png";
+import { toast } from "react-toastify";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -25,7 +26,7 @@ export default function ResponsiveGrid() {
   const getAllData = async () => {
     try {
       let token = localStorage.getItem("Token");
-      const { data } = await axios.get(`http://localhost:8080/allworkouts`, {
+      const { data } = await axios.get(`https://bootcamp-project.vercel.app/allworkouts`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -33,7 +34,16 @@ export default function ResponsiveGrid() {
       setAllWorkouts(data);
       console.log(allWorkouts);
     } catch (e) {
-      alert(e.message);
+      toast.error(e.message, {
+        position: "bottom-left",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 

@@ -22,14 +22,23 @@ const DeleteForm = ({ setOpen, allData }) => {
   const deleteItemFromDB = async () => {
     try {
       const { data } = await axios.delete(
-        `http://localhost:8080/workout/${allData._id}`
+        `https://bootcamp-project.vercel.app/workout/${allData._id}`
       );
       notify()
       setAllWorkouts(allWorkouts.filter((item) => item._id !== allData._id));
       console.log(data);
       setOpen(false);
     } catch (e) {
-      alert(e.message);
+      toast.error(e.message, {
+        position: "bottom-left",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 

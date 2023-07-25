@@ -161,7 +161,7 @@ export default function EditForm({ setOpen, allData }) {
     try {
       const body = { title, description, type, duration, date };
       const { data } = await axios.put(
-        `http://localhost:8080/workout/${allData._id}`,
+        `https://bootcamp-project.vercel.app/workout/${allData._id}`,
         body
       );
       toast.success("Record Updated Successfully", {
@@ -183,6 +183,16 @@ export default function EditForm({ setOpen, allData }) {
       console.log(data);
     } catch (e) {
       alert(e.message);
+      toast.error(e.message, {
+        position: "bottom-left",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
 
     setOpen(false);

@@ -205,7 +205,7 @@ export default function StateTextFields({ setOpen }) {
       const _userId = localStorage.getItem("UserId");
       console.log(_userId);
       const body = { _userId, title, description, type, duration, date };
-      const { data } = await axios.post("http://localhost:8080/workout", body);
+      const { data } = await axios.post("https://bootcamp-project.vercel.app/workout", body);
       notify();
       const WorkOutClone = allWorkouts.slice(0);
       WorkOutClone.push(data);
@@ -213,8 +213,17 @@ export default function StateTextFields({ setOpen }) {
 
       console.log(data);
     } catch (e) {
-      alert(e.message);
       setOpen(false);
+      toast.error(e.message, {
+        position: "bottom-left",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
 
     setOpen(false);
