@@ -20,7 +20,7 @@ import homeIcon from "../assets/home-icon.png";
 import aboutIcon from "../assets/about-icon.png";
 import newStyled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import {toast} from 'react-toastify'
+import { toast } from "react-toastify";
 
 const drawerWidth = "70%";
 
@@ -29,7 +29,6 @@ const navItems = [
   // { text: "Favourites", to: "/favorite" },
   { text: "Exercises", to: "/exercises" },
   { text: "About Us", to: "/about" },
-  { text: "Logout", to: "#" },
 ];
 const navItemsIcons = [
   { icon: homeIcon, to: "/" },
@@ -50,16 +49,16 @@ function DrawerAppBar(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const notify = () =>
-  toast.success("Logout Successfully", {
-    position: "bottom-left",
-    autoClose: 2500,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-  });
+    toast.success("Logout Successfully", {
+      position: "bottom-left",
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -68,7 +67,14 @@ function DrawerAppBar(props) {
   const drawer = (
     <Box
       onClick={handleDrawerToggle}
-      sx={{ textAlign: "center", height: '100%', position: "sticky", top: 0,  boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)', }}
+      sx={{
+        textAlign: "center",
+        height: "100%",
+        position: "sticky",
+        top: 0,
+        boxShadow:
+          "0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)",
+      }}
     >
       <Typography
         variant="h4"
@@ -79,16 +85,32 @@ function DrawerAppBar(props) {
       <Divider />
       <List>
         {navItems.map((item, index) => (
-          <Link style={{textDecoration:"none"}} key={index} to={item.to}>
+          <Link style={{ textDecoration: "none" }} key={index} to={item.to}>
             <ListItem key={item} disablePadding>
               <MyComponent>
                 <ListItemButton sx={{ textAlign: "center" }}>
-                  <ListItemText style={{color:'#000'}} primary={item.text} />
+                  <ListItemText style={{ color: "#000" }} primary={item.text} />
                 </ListItemButton>
               </MyComponent>
             </ListItem>
           </Link>
         ))}
+        <ListItem
+          onClick={() => {
+            localStorage.removeItem("Token");
+            localStorage.removeItem("RefreshToken");
+            localStorage.removeItem("UserId");
+            location.replace("/");
+            notify();
+          }}
+          disablePadding
+        >
+          <MyComponent>
+            <ListItemButton sx={{ textAlign: "center" }}>
+              <ListItemText style={{ color: "#000" }} primary={"Logout"} />
+            </ListItemButton>
+          </MyComponent>
+        </ListItem>
       </List>
     </Box>
   );
@@ -137,12 +159,12 @@ function DrawerAppBar(props) {
                   fontSize: "16px",
                   letterSpacing: "1px",
                 }}
-                onClick={()=>{
+                onClick={() => {
                   localStorage.removeItem("Token");
                   localStorage.removeItem("RefreshToken");
                   localStorage.removeItem("UserId");
-                  location.replace('/')
-                  notify()
+                  location.replace("/");
+                  notify();
                 }}
               >
                 Logout
@@ -185,7 +207,6 @@ function DrawerAppBar(props) {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
-             
             },
           }}
         >
