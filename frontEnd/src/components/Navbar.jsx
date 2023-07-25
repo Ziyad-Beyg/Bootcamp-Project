@@ -26,7 +26,7 @@ const drawerWidth = "70%";
 
 const navItems = [
   { text: "Home", to: "/" },
-  { text: "Favourites", to: "/favorite" },
+  // { text: "Favourites", to: "/favorite" },
   { text: "Exercises", to: "/exercises" },
   { text: "About Us", to: "/about" },
   { text: "Logout", to: "#" },
@@ -68,7 +68,7 @@ function DrawerAppBar(props) {
   const drawer = (
     <Box
       onClick={handleDrawerToggle}
-      sx={{ textAlign: "center", position: "sticky", top: 0,  boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)', }}
+      sx={{ textAlign: "center", height: '100%', position: "sticky", top: 0,  boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)', }}
     >
       <Typography
         variant="h4"
@@ -185,6 +185,7 @@ function DrawerAppBar(props) {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
+             
             },
           }}
         >

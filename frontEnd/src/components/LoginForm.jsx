@@ -107,27 +107,27 @@ const LoginForm = () => {
     }
   };
   return (
-    <main className="FormComponent" style={{ width: "50%", zIndex: "1111" }}>
+    <main className="FormComponent" style={{ width: "90%",  marginTop: "50px", zIndex: "1111" }}>
       <section
         style={{
           backgroundColor: "white",
           borderRadius: "20px",
           boxShadow: "0px 5px 8px rgba(0, 0, 0, 0.2)",
-          padding: "30px",
+          padding: "20px",
         }}
       >
-        <img
-          src={logo}
-          alt="Brand Logo"
-          width={120}
-          height={100}
-          style={{ objectFit: "contain" }}
-        />
-        <p style={{ margin: "15px 0px", color: "#000", opacity: "0.5" }}>
-          Welcome back!
-        </p>
-        <section style={{ backgroundColor: "white" }}>
+        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+          <img
+            src={logo}
+            alt="Brand Logo"
+            width={120}
+            height={100}
+            style={{ objectFit: "contain" }}
+          />
+
           <h2 style={{ fontSize: "34px" }}>Sign In</h2>
+        </div>
+        <section style={{ backgroundColor: "white" }}>
           <div style={{ margin: "25px 0px" }}>
             <TextField
               name="email"

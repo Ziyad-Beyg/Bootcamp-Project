@@ -1,17 +1,17 @@
 import React from "react";
 import LoginForm from "../../components/LoginForm";
-import loginBg from "../../assets/loginBg.png";
+import loginBg from "../../assets/bgNoLeafs.png";
+import Leafs from "../../assets/twoLeafs.png";
 import Lottie from "lottie-react";
 import animationData from "../../assets/Befit.json";
-import '../../app.css'
+import "../../app.css";
 
 const Login = () => {
-  
   return (
     <main
       style={{
         display: "grid",
-        gridTemplateColumns: "60% 1fr",
+        gridTemplateColumns: 'repeat(2, 1fr)',
         height: "100vh",
         margin: "0px",
         padding: "0px",
@@ -24,29 +24,43 @@ const Login = () => {
           width: "100%",
           display: "flex",
           justifyContent: "center",
-          alignItems: "center",
+          position: "relative",
+          marginTop:"40px"
         }}
         className="form-section"
       >
         <LoginForm />
+        <img
+          src={Leafs}
+          alt="two leafs"
+          width={50}
+          className="leafImg"
+          style={{
+            objectFit: "contain",
+            position: "absolute",
+            bottom: "150px",
+            right: "0%",
+          }}
+        />
       </section>
       <section
         style={{
           backgroundColor: "#edf5ef",
           width: "100%",
           overflow: "hidden",
+          position: "relative",
         }}
         className="green-section"
       >
         <img
           src={loginBg}
           alt="login Bg "
-          width={750}
+          width={'100%'}
           style={{
             objectFit: "contain",
             position: "absolute",
             bottom: "150px",
-            right: "4.1%",
+            left: "0%",
           }}
           className="animation-img"
         />
@@ -54,10 +68,10 @@ const Login = () => {
           animationData={animationData}
           style={{
             position: "absolute",
-            right: "1%",
-            bottom: "40px",
-            width: "800px",
-            height: "800px",
+            left: "1%",
+            bottom: "8%",
+            width: "90%",
+            height: "90%",
           }}
           className="animation"
         />

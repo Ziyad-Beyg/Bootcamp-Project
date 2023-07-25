@@ -41,7 +41,7 @@ export default function ColumnsGrid() {
           >
             A New Era of Fitness <br /> Standards
           </h1>
-          <img src={homeImage}  style={{objectFit:"contain", width:'500px', minWidth:'350px'}} alt="Home Image" />
+          <img src={homeImage} className="homeImg" style={{objectFit:"contain", width:'300px', maxWidth:'400px'}} alt="Home Image" />
           <h3
             style={{
               textAlign: "center",
